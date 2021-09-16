@@ -13,4 +13,10 @@ export const theme = {
     l: '20px',
     xl: '24px',
   },
+
+  fontWeight: {
+    light: '300',
+    normal: '400',
+    bold: '600',
+  },
 };
