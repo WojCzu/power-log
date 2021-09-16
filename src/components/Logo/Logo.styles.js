@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.a`
   display: flex;
   align-items: center;
+  text-decoration: none;
+  width: fit-content;
 `;
 
 export const LogoImage = styled.img`
@@ -10,7 +12,7 @@ export const LogoImage = styled.img`
   margin-right: 5px;
 `;
 
-export const LogoText = styled.h1`
+export const LogoText = styled.p`
   margin: 0;
 
   font-size: ${({ theme }) => theme.fontSize.l};
