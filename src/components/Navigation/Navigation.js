@@ -1,13 +1,8 @@
-import React, { useState, useCallback } from 'react';
-import Logo from 'components/Logo/Logo';
-import Hamburger from 'components/Hamburger/Hamburger';
-import {
-  StyledHeader,
-  StyledNav,
-  Bar,
-  StyledList,
-  StyledItem,
-} from './Navigation.styles';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { handleClickOutsideComponent } from 'helpers/handleClickOutsideComponent';
+import NavBar from 'components/NavBar/NavBar';
+import { StyledNav } from './Navigation.styles';
+import NavList from 'components/NavList/NavList';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,26 +12,31 @@ const Navigation = () => {
     []
   );
 
+  const navRef = useRef(null);
+
+  useEffect(() => {
+    document.addEventListener('click', (e) => {
+      handleClickOutsideComponent(e, [navRef], () => setIsOpen(false));
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode === 27) {
+        setIsOpen(false);
+      }
+    });
+
+    return () => {
+      document.removeEventListener('click', (e) => {
+        handleClickOutsideComponent(e, [navRef], () => setIsOpen(false));
+      });
+    };
+  }, []);
+
   return (
-    <StyledHeader>
-      <StyledNav>
-        <Bar>
-          <Logo />
-          <Hamburger handleClick={toggleIsOpen} isOpen={isOpen} />
-        </Bar>
-        <StyledList isOpen={isOpen}>
-          <StyledItem>
-            <a href="/">Home</a>
-          </StyledItem>
-          <StyledItem>
-            <a href="/workouts">Workouts</a>
-          </StyledItem>
-          <StyledItem>
-            <a href="/calc">Calculators</a>
-          </StyledItem>
-        </StyledList>
-      </StyledNav>
-    </StyledHeader>
+    <StyledNav ref={navRef}>
+      <NavBar handleClick={toggleIsOpen} isOpen={isOpen} />
+      <NavList isOpen={isOpen} />
+    </StyledNav>
   );
 };
 
