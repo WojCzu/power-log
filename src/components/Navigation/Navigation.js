@@ -19,8 +19,8 @@ const Navigation = () => {
       handleClickOutsideComponent(e, [navRef], () => setIsOpen(false));
     });
 
-    document.addEventListener('keydown', (e) => {
-      if (e.keyCode === 27) {
+    document.addEventListener('keyup', (e) => {
+      if (e.key === 'Escape' || e.key === 'Esc') {
         setIsOpen(false);
       }
     });
