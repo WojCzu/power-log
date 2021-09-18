@@ -13,6 +13,7 @@ const Navigation = () => {
   );
 
   const navRef = useRef(null);
+  const hamburgerRef = useRef(null);
 
   useEffect(() => {
     document.addEventListener('click', (e) => {
@@ -22,6 +23,9 @@ const Navigation = () => {
     document.addEventListener('keyup', (e) => {
       if (e.key === 'Escape' || e.key === 'Esc') {
         setIsOpen(false);
+        if (isOpen) {
+          hamburgerRef.current.focus();
+        }
       }
     });
 
@@ -30,11 +34,15 @@ const Navigation = () => {
         handleClickOutsideComponent(e, [navRef], () => setIsOpen(false));
       });
     };
-  }, []);
+  }, [isOpen]);
 
   return (
     <StyledNav ref={navRef}>
-      <NavBar handleClick={toggleIsOpen} isOpen={isOpen} />
+      <NavBar
+        handleClick={toggleIsOpen}
+        isOpen={isOpen}
+        hamburgerRef={hamburgerRef}
+      />
       <NavList isOpen={isOpen} />
     </StyledNav>
   );
