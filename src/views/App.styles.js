@@ -4,6 +4,6 @@ export const Wrapper = styled.div`
   position: absolute;
   top: 0;
   width: 100%;
-  min-height: 200vh;
+  min-height: 100vh;
   background-color: ${({ theme }) => theme.color.lightGray};
 `;
