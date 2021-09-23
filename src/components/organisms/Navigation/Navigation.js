@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { handleClickOutsideComponent } from 'helpers/handleClickOutsideComponent';
-import NavBar from 'components/NavBar/NavBar';
+import NavBar from 'components/molecules/NavBar/NavBar';
 import { StyledNav } from './Navigation.styles';
-import NavList from 'components/NavList/NavList';
+import NavList from 'components/molecules/NavList/NavList';
 
 const Navigation = () => {
   const [isOpen, _setIsOpen] = useState(false);

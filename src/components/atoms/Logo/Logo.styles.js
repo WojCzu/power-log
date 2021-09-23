@@ -5,6 +5,11 @@ export const Wrapper = styled.a`
   align-items: center;
   text-decoration: none;
   width: fit-content;
+
+  &:focus-visible {
+    outline: ${({ theme }) => theme.color.lightGray} dashed 2px;
+    outline-offset: 2px;
+  }
 `;
 
 export const LogoImage = styled.img`

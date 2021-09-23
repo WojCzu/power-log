@@ -1,6 +1,6 @@
 import React from 'react';
-import Navigation from 'components/Navigation/Navigation';
-import Workouts from 'components/Workouts/Workouts';
+import Navigation from 'components/organisms/Navigation/Navigation';
+import Workouts from 'components/templates/Workouts/Workouts';
 import { Wrapper } from './App.styles';
 
 const App = () => (

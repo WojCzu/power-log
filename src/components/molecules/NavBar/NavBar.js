@@ -1,6 +1,6 @@
 import React from 'react';
-import Logo from 'components/Logo/Logo';
-import Hamburger from 'components/Hamburger/Hamburger';
+import Logo from 'components/atoms/Logo/Logo';
+import Hamburger from 'components/atoms/Hamburger/Hamburger';
 import { Wrapper } from './NavBar.styles';
 
 const NavBar = ({ ...props }) => {

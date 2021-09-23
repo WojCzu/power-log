@@ -10,6 +10,11 @@ export const Wrapper = styled.button`
   cursor: pointer;
 
   transform: translateX(6px);
+
+  &:focus-visible {
+    outline: ${({ theme }) => theme.color.lightGray} dashed 2px;
+    outline-offset: 2px;
+  }
 `;
 
 export const Box = styled.span`
