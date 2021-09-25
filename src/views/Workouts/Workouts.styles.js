@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button } from 'components/atoms/Button/Button';
+import { StyledLink } from 'components/atoms/Button/Button';
 
 export const Wrapper = styled.div`
   margin: 0 auto;
@@ -11,7 +11,7 @@ export const Wrapper = styled.div`
   display: grid;
   grid-template-rows: 100px 1fr;
   grid-template-columns: 1fr;
-  ${Button} {
+  ${StyledLink} {
     align-self: center;
   }
 `;

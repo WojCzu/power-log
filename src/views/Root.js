@@ -2,7 +2,7 @@ import React from 'react';
 import { GlobalStyles } from 'assets/styles/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
 import { theme } from 'assets/styles/theme';
-import App from './App';
+import App from './App/App';
 
 const Root = () => (
   <>

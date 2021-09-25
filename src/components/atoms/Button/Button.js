@@ -1,6 +1,7 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { Link } from 'react-router-dom';
 
-export const Button = styled.button`
+const styles = css`
   padding: 0.5em 1.5em;
 
   font-size: ${({ theme }) => theme.fontSize.m};
@@ -15,6 +16,8 @@ export const Button = styled.button`
   border-radius: 8px;
   transition: background-color 0.2s ease-in-out;
   cursor: pointer;
+  text-decoration: none;
+  text-align: center;
 
   &:hover,
   &:focus {
@@ -26,4 +29,12 @@ export const Button = styled.button`
     outline: ${({ theme }) => theme.color.purple} dashed 2px;
     outline-offset: 2px;
   }
+`;
+
+export const Button = styled.button`
+  ${styles}
+`;
+
+export const StyledLink = styled(Link)`
+  ${styles}
 `;
