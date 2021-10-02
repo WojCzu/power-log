@@ -1,6 +1,16 @@
-import { Button } from 'components/atoms/Button/Button';
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import { Button } from 'components/atoms/Button/Button';
+import Input from 'components/atoms/Input/Input';
+import Accordion from 'components/organisms/Accordion/Accordion';
+import Exercise from 'components/molecules/Exercise/Exercise';
+import Notes from 'components/molecules/Notes/Notes';
+import {
+  Wrapper,
+  DateInput,
+  StyledLabel,
+  FormField,
+  ExercisesContainer,
+} from './AddWorkout.styles';
 
 const AddWorkout = () => {
   const today = new Date().toISOString().split('T')[0];
@@ -16,9 +26,9 @@ const AddWorkout = () => {
 
   return (
     <Wrapper>
-      <div>
-        <label htmlFor="starting-date">date: </label>
-        <input
+      <FormField>
+        <StyledLabel htmlFor="starting-date">date: </StyledLabel>
+        <DateInput
           type="date"
           id="starting-date"
           name="workout-start"
@@ -26,82 +36,40 @@ const AddWorkout = () => {
           max={today}
           onChange={handleDateChange}
         />
-      </div>
-      <div>
-        <label htmlFor="workout-title">title: </label>
-        <input
+      </FormField>
+      <FormField isColumn>
+        <StyledLabel htmlFor="workout-title">title: </StyledLabel>
+        <Input
           type="text"
           id="workout-title"
           value={workoutTitle}
           onChange={handleTitleChange}
+          placeholder="workout name"
+          isBig
+          customWidth="clamp(250px, 45vw, 700px)"
         />
-      </div>
+      </FormField>
 
-      <details>
-        <summary>Low Bar Squat</summary>
-        <div>
-          <div>
-            <div>
-              <span>set 1:</span> <input type="text" value="50" />
-              <span>kg x</span> <input type="text" value="12" />{' '}
-              <span>reps</span>{' '}
-            </div>
-            <div>
-              <span>set 2:</span> <input type="text" value="50" />
-              <span>kg x</span> <input type="text" value="12" />{' '}
-              <span>reps</span>{' '}
-            </div>
-            <div>
-              <span>set 3:</span> <input type="text" value="50" />
-              <span>kg x</span> <input type="text" value="12" />{' '}
-              <span>reps</span>{' '}
-            </div>
-          </div>
-          <Button>add set</Button>
-        </div>
-      </details>
-      <details>
-        <summary>Bulgarian Split Squat</summary>
-        <div>
-          <div>
-            <div>
-              <span>set 1:</span> <input type="text" value="50" />
-              <span>kg x</span> <input type="text" value="12" />{' '}
-              <span>reps</span>{' '}
-            </div>
-            <div>
-              <span>set 2:</span> <input type="text" value="50" />
-              <span>kg x</span> <input type="text" value="12" />{' '}
-              <span>reps</span>{' '}
-            </div>
-            <div>
-              <span>set 3:</span> <input type="text" value="50" />
-              <span>kg x</span> <input type="text" value="12" />{' '}
-              <span>reps</span>{' '}
-            </div>
-          </div>
-          <Button>add set</Button>
-        </div>
-      </details>
+      <ExercisesContainer>
+        <Accordion title="Low bar squat">
+          <Exercise />
+        </Accordion>
 
-      <Button isPrimary>add exercise</Button>
+        <Accordion title="Bulgarian split squat">
+          <Exercise />
+        </Accordion>
 
-      <details>
-        <summary>notes</summary>
-        <div>
-          <label htmlFor="notes"></label>
-          <input type="text" id="notes" value="" />
-        </div>
-      </details>
+        <Button isPrimary isFullWidth>
+          add exercise
+        </Button>
+
+        <Accordion title="notes" isSmall>
+          <Notes />
+        </Accordion>
+      </ExercisesContainer>
       <Button type="submit">end workout</Button>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.form`
-  margin: 0 auto;
-  padding: 65px 20px 20px;
-  height: 100vh;
-  width: 100%;
-`;
 export default AddWorkout;

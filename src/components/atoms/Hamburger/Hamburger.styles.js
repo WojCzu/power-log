@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { lightOutline } from 'assets/styles/outline';
 
 export const Wrapper = styled.button`
   height: 36px;
@@ -11,10 +12,7 @@ export const Wrapper = styled.button`
 
   transform: translateX(6px);
 
-  &:focus-visible {
-    outline: ${({ theme }) => theme.color.lightGray} dashed 2px;
-    outline-offset: 2px;
-  }
+  ${lightOutline}
 `;
 
 export const Box = styled.span`

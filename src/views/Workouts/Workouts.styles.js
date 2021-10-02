@@ -3,8 +3,8 @@ import { StyledLink } from 'components/atoms/Button/Button';
 
 export const Wrapper = styled.div`
   margin: 0 auto;
-  padding: 65px 20px 20px;
-  height: 100vh;
+  padding: 0 20px 20px;
+  height: 100%;
   width: 100%;
   max-width: 800px;
 

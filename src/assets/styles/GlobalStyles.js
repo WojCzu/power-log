@@ -12,7 +12,10 @@ export const GlobalStyles = createGlobalStyle`
         padding: 0;
         font-family: 'Montserrat', sans-serif;
     }
-    button, a {
+    button, a, input, textarea {
         font-family: 'Montserrat', sans-serif;
+    }
+    input, button{
+        box-sizing: border-box;
     }
 `;

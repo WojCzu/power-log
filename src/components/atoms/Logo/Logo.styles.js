@@ -1,15 +1,12 @@
 import styled from 'styled-components';
+import { lightOutline } from 'assets/styles/outline';
 
 export const Wrapper = styled.a`
   display: flex;
   align-items: center;
   text-decoration: none;
   width: fit-content;
-
-  &:focus-visible {
-    outline: ${({ theme }) => theme.color.lightGray} dashed 2px;
-    outline-offset: 2px;
-  }
+  ${lightOutline}
 `;
 
 export const LogoImage = styled.img`
