@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { scrollbar } from './scrollbar';
 
 export const GlobalStyles = createGlobalStyle`
     html {
@@ -18,4 +19,6 @@ export const GlobalStyles = createGlobalStyle`
     input, button{
         box-sizing: border-box;
     }
+    
+    ${scrollbar}
 `;
