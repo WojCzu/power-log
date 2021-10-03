@@ -4,9 +4,7 @@ import styled from 'styled-components';
 export const Wrapper = styled.form`
   margin: 0 auto;
   padding: 1px 20px 20px;
-  height: 100%;
   width: clamp(280px, 100%, 860px);
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
