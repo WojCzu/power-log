@@ -14,7 +14,9 @@ const Exercise = () => {
         volumeType="reps"
       />
       <ExerciseSet setNumber="3" weight="50" volume="12" volumeType="reps" />
-      <Button isFullWidth>add set</Button>
+      <Button isFullWidth type="button">
+        add set
+      </Button>
     </Wrapper>
   );
 };

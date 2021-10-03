@@ -4,6 +4,8 @@ import Input from 'components/atoms/Input/Input';
 import Accordion from 'components/organisms/Accordion/Accordion';
 import Exercise from 'components/molecules/Exercise/Exercise';
 import Notes from 'components/molecules/Notes/Notes';
+import { useModal } from 'hooks/useModal';
+import Modal from 'components/organisms/Modal/Modal';
 import {
   Wrapper,
   DateInput,
@@ -13,6 +15,12 @@ import {
 } from './AddWorkout.styles';
 
 const AddWorkout = () => {
+  const { isModalOpen, toggleOpenModal } = useModal();
+  const {
+    isModalOpen: isEndWorkoutOpen,
+    toggleOpenModal: toggleOpenEndWorkout,
+  } = useModal();
+
   const today = new Date().toISOString().split('T')[0];
   const [date, setDate] = useState(today);
   const [workoutTitle, setWorkoutTitle] = useState('');
@@ -59,15 +67,40 @@ const AddWorkout = () => {
           <Exercise />
         </Accordion>
 
-        <Button isPrimary isFullWidth>
+        <Button isPrimary isFullWidth type="button" onClick={toggleOpenModal}>
           add exercise
         </Button>
+        {isModalOpen && (
+          <Modal isOpen={isModalOpen} onRequestClose={toggleOpenModal}>
+            <button
+              onClick={() => {
+                console.log('add new exercise');
+              }}
+            >
+              add new exercise
+            </button>
+          </Modal>
+        )}
 
         <Accordion title="notes" isSmall>
           <Notes />
         </Accordion>
       </ExercisesContainer>
-      <Button type="submit">end workout</Button>
+
+      <Button type="button" onClick={toggleOpenEndWorkout}>
+        end workout
+      </Button>
+      {isEndWorkoutOpen && (
+        <Modal isOpen={isEndWorkoutOpen} onRequestClose={toggleOpenEndWorkout}>
+          <button
+            onClick={() => {
+              console.log('end workout');
+            }}
+          >
+            end workout?
+          </button>
+        </Modal>
+      )}
     </Wrapper>
   );
 };
