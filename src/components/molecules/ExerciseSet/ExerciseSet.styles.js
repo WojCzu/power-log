@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { darkOutline } from 'assets/styles/outline';
 
 export const StyledSetNumber = styled.span`
   font-weight: ${({ theme }) => theme.fontWeight.light};
@@ -17,20 +16,6 @@ export const Wrapper = styled.div`
   display: grid;
   align-items: center;
   grid-template-columns: 1fr 6fr 1fr;
-`;
-
-export const StyledButton = styled.button`
-  padding: 0;
-
-  text-align: right;
-  background: none;
-  border: none;
-
-  font-size: ${({ theme }) => theme.fontSize.xl};
-  font-weight: ${({ theme }) => theme.fontWeight.light};
-  color: ${({ theme }) => theme.color.black};
-  cursor: pointer;
-  ${darkOutline}
 `;
 
 export const StyledInfo = styled.div`

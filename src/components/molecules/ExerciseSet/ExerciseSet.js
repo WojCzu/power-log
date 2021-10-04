@@ -4,9 +4,9 @@ import {
   Wrapper,
   StyledSetNumber,
   StyledSpan,
-  StyledButton,
   StyledInfo,
 } from './ExerciseSet.styles';
+import { CloseButton } from 'components/atoms/CloseButton/CloseButton';
 
 const ExerciseSet = ({ setNumber, weight, volume, volumeType }) => {
   return (
@@ -19,7 +19,7 @@ const ExerciseSet = ({ setNumber, weight, volume, volumeType }) => {
         <StyledSpan>{volumeType}</StyledSpan>
       </StyledInfo>
 
-      <StyledButton>x</StyledButton>
+      <CloseButton>x</CloseButton>
     </Wrapper>
   );
 };
