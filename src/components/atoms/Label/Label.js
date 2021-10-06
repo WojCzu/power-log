@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Label = styled.label`
+const Label = styled.label`
   font-size: ${({ isBig, theme }) =>
     isBig ? theme.fontSize.m : theme.fontSize.s};
 
@@ -8,3 +8,5 @@ export const Label = styled.label`
     isBig ? theme.fontWeight.normal : theme.fontWeight.light};
   color: ${({ theme }) => theme.color.black};
 `;
+
+export default Label;

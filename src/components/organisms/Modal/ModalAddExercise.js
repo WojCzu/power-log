@@ -1,9 +1,7 @@
 import { Button } from 'components/atoms/Button/Button';
-import Input from 'components/atoms/Input/Input';
-import { Label } from 'components/atoms/Label/Label';
 import { SrOnly } from 'components/atoms/SrOnly/SrOnly';
+import FormField from 'components/molecules/FormField/FormField';
 import React from 'react';
-import styled from 'styled-components';
 import Modal from './Modal';
 import { ButtonsWrapper, Content } from './Modal.styles';
 
@@ -14,33 +12,32 @@ const ModalAddExercise = ({ closeModal, ...props }) => {
         <SrOnly id="modal__description">
           Fill form to add new exercise to workout
         </SrOnly>
-        <FormField isColumn>
-          <Label htmlFor="exercise-name">name: </Label>
-          <Input type="text" id="exercise-name" placeholder="exercise name" />
-        </FormField>
         <div>
-          <p>repetitions:</p>
+          <FormField
+            label="name:"
+            type="text"
+            id="exercise-name"
+            placeholder="exercise name"
+            isColumn
+          />
           <div>
-            <Input
+            <p>repetitions:</p>
+
+            <FormField
+              label="reps"
               type="radio"
               id="reps"
               value="reps"
               name="repetitions-type"
             />
-            <Label isBig htmlFor="reps">
-              reps
-            </Label>
-          </div>
-          <div>
-            <Input
+
+            <FormField
+              label="seconds"
               type="radio"
               id="seconds"
               value="seconds"
               name="repetitions-type"
             />
-            <Label isBig htmlFor="seconds">
-              seconds
-            </Label>
           </div>
         </div>
         <ButtonsWrapper>
@@ -57,11 +54,3 @@ const ModalAddExercise = ({ closeModal, ...props }) => {
 };
 
 export default ModalAddExercise;
-
-const FormField = styled.div`
-  display: flex;
-  flex-direction: ${({ isColumn }) => isColumn && 'column'};
-  align-items: flex-start;
-
-  align-self: flex-start;
-`;

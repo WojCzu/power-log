@@ -9,14 +9,6 @@ export const Wrapper = styled.form`
   align-items: center;
 `;
 
-export const FormField = styled.div`
-  margin: 16px 0;
-  display: flex;
-  flex-direction: ${({ isColumn }) => isColumn && 'column'};
-  align-items: flex-start;
-
-  align-self: flex-start;
-`;
 export const ExercisesContainer = styled.div`
   width: clamp(250px, 100%, 450px);
 `;
