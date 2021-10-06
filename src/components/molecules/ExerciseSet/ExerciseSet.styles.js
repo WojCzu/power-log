@@ -1,11 +1,5 @@
 import styled from 'styled-components';
 
-export const StyledSetNumber = styled.span`
-  font-weight: ${({ theme }) => theme.fontWeight.light};
-  font-size: ${({ theme }) => theme.fontSize.s};
-  color: ${({ theme }) => theme.color.black};
-`;
-
 export const StyledSpan = styled.span`
   font-size: ${({ theme }) => theme.fontSize.s};
   color: ${({ theme }) => theme.color.black};

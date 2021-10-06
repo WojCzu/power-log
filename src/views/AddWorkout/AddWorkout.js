@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from 'components/atoms/Button/Button';
+import { Label } from 'components/atoms/Label/Label';
 import Input from 'components/atoms/Input/Input';
 import Accordion from 'components/organisms/Accordion/Accordion';
 import Exercise from 'components/molecules/Exercise/Exercise';
@@ -7,12 +8,7 @@ import { useModal } from 'hooks/useModal';
 import ModalConfirm from 'components/organisms/Modal/ModalConfirm';
 import ModalAddExercise from 'components/organisms/Modal/ModalAddExercise';
 
-import {
-  Wrapper,
-  StyledLabel,
-  FormField,
-  ExercisesContainer,
-} from './AddWorkout.styles';
+import { Wrapper, FormField, ExercisesContainer } from './AddWorkout.styles';
 
 const AddWorkout = () => {
   const { isModalOpen, toggleOpenModal } = useModal();
@@ -35,7 +31,7 @@ const AddWorkout = () => {
   return (
     <Wrapper>
       <FormField>
-        <StyledLabel htmlFor="starting-date">date: </StyledLabel>
+        <Label htmlFor="starting-date">date: </Label>
         <Input
           type="date"
           id="starting-date"
@@ -46,7 +42,7 @@ const AddWorkout = () => {
         />
       </FormField>
       <FormField isColumn>
-        <StyledLabel htmlFor="workout-title">title: </StyledLabel>
+        <Label htmlFor="workout-title">title: </Label>
         <Input
           type="text"
           id="workout-title"

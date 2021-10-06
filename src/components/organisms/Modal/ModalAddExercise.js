@@ -1,5 +1,6 @@
 import { Button } from 'components/atoms/Button/Button';
 import Input from 'components/atoms/Input/Input';
+import { Label } from 'components/atoms/Label/Label';
 import { SrOnly } from 'components/atoms/SrOnly/SrOnly';
 import React from 'react';
 import styled from 'styled-components';
@@ -14,7 +15,7 @@ const ModalAddExercise = ({ closeModal, ...props }) => {
           Fill form to add new exercise to workout
         </SrOnly>
         <FormField isColumn>
-          <StyledLabel htmlFor="exercise-name">name: </StyledLabel>
+          <Label htmlFor="exercise-name">name: </Label>
           <Input type="text" id="exercise-name" placeholder="exercise name" />
         </FormField>
         <div>
@@ -26,7 +27,9 @@ const ModalAddExercise = ({ closeModal, ...props }) => {
               value="reps"
               name="repetitions-type"
             />
-            <label htmlFor="reps">reps</label>
+            <Label isBig htmlFor="reps">
+              reps
+            </Label>
           </div>
           <div>
             <Input
@@ -35,7 +38,9 @@ const ModalAddExercise = ({ closeModal, ...props }) => {
               value="seconds"
               name="repetitions-type"
             />
-            <label htmlFor="seconds">seconds</label>
+            <Label isBig htmlFor="seconds">
+              seconds
+            </Label>
           </div>
         </div>
         <ButtonsWrapper>
@@ -59,9 +64,4 @@ const FormField = styled.div`
   align-items: flex-start;
 
   align-self: flex-start;
-`;
-const StyledLabel = styled.label`
-  font-size: ${({ theme }) => theme.fontSize.s};
-  font-weight: ${({ theme }) => theme.fontWeight.light};
-  color: ${({ theme }) => theme.color.black};
 `;

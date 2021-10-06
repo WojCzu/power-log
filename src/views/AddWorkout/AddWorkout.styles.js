@@ -9,12 +9,6 @@ export const Wrapper = styled.form`
   align-items: center;
 `;
 
-export const StyledLabel = styled.label`
-  font-size: ${({ theme }) => theme.fontSize.s};
-  font-weight: ${({ theme }) => theme.fontWeight.light};
-  color: ${({ theme }) => theme.color.black};
-`;
-
 export const FormField = styled.div`
   margin: 16px 0;
   display: flex;
