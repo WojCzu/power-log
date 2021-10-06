@@ -5,7 +5,9 @@ import Accordion from 'components/organisms/Accordion/Accordion';
 import Exercise from 'components/molecules/Exercise/Exercise';
 import Notes from 'components/molecules/Notes/Notes';
 import { useModal } from 'hooks/useModal';
-import Modal from 'components/organisms/Modal/Modal';
+import ModalConfirm from 'components/organisms/Modal/ModalConfirm';
+import ModalAddExercise from 'components/organisms/Modal/ModalAddExercise';
+
 import {
   Wrapper,
   DateInput,
@@ -13,8 +15,6 @@ import {
   FormField,
   ExercisesContainer,
 } from './AddWorkout.styles';
-import styled from 'styled-components';
-import { SrOnly } from 'components/atoms/SrOnly/SrOnly';
 
 const AddWorkout = () => {
   const { isModalOpen, toggleOpenModal } = useModal();
@@ -73,46 +73,11 @@ const AddWorkout = () => {
           add exercise
         </Button>
         {isModalOpen && (
-          <Modal
+          <ModalAddExercise
             isOpen={isModalOpen}
             closeModal={toggleOpenModal}
             modalTitle="Add new exercise"
-          >
-            <SrOnly id="modal__description">
-              Fill form to add new exercise to workout
-            </SrOnly>
-            <FormField isColumn>
-              <StyledLabel htmlFor="exercise-name">name: </StyledLabel>
-              <Input
-                type="text"
-                id="exercise-name"
-                placeholder="exercise name"
-              />
-            </FormField>
-            <FormField isColumn>
-              <p>repetitions:</p>
-              <div>
-                <StyledRadio
-                  type="radio"
-                  id="reps"
-                  value="reps"
-                  name="repetitions-type"
-                />
-                <label htmlFor="reps">reps</label>
-              </div>
-              <div>
-                <StyledRadio
-                  type="radio"
-                  id="seconds"
-                  value="seconds"
-                  name="repetitions-type"
-                />
-                <label htmlFor="seconds">seconds</label>
-              </div>
-            </FormField>
-            <Button onClick={toggleOpenModal}>cancel</Button>
-            <Button isPrimary>add</Button>
-          </Modal>
+          />
         )}
 
         <Accordion title="notes" isSmall>
@@ -124,25 +89,17 @@ const AddWorkout = () => {
         end workout
       </Button>
       {isEndWorkoutOpen && (
-        <Modal
+        <ModalConfirm
           isOpen={isEndWorkoutOpen}
           closeModal={toggleOpenEndWorkout}
           modalTitle="End workout?"
+          handleConfirm={() => console.log(123)}
         >
-          <p id="modal__description">
-            Are you sure, you want to end your workout?
-          </p>
-          <Button onClick={toggleOpenEndWorkout}>cancel</Button>
-          <Button isPrimary>confirm</Button>
-        </Modal>
+          Are you sure, you want to end your workout?
+        </ModalConfirm>
       )}
     </Wrapper>
   );
 };
 
 export default AddWorkout;
-
-const StyledRadio = styled.input`
-  accent-color: ${({ theme }) => theme.color.purple};
-  margin-right: 10px;
-`;
