@@ -1,11 +1,11 @@
 import React from 'react';
-import { Wrapper, StyledSummary } from './Accordion.styles';
+import { Wrapper, StyledSummary, Content } from './Accordion.styles';
 
 const Accordion = ({ title, children, ...props }) => {
   return (
     <Wrapper open>
       <StyledSummary {...props}>{title}</StyledSummary>
-      {children}
+      <Content>{children}</Content>
     </Wrapper>
   );
 };

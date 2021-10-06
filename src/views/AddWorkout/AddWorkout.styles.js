@@ -1,4 +1,3 @@
-import { darkOutline } from 'assets/styles/outline';
 import styled from 'styled-components';
 
 export const Wrapper = styled.form`
@@ -8,19 +7,6 @@ export const Wrapper = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-export const DateInput = styled.input`
-  margin-left: 10px;
-  font-size: ${({ theme }) => theme.fontSize.m};
-  background-color: transparent;
-  border: none;
-  color: ${({ theme }) => theme.color.black};
-
-  &::-webkit-calendar-picker-indicator {
-    margin: 0;
-  }
-  ${darkOutline}
 `;
 
 export const StyledLabel = styled.label`

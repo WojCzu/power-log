@@ -44,3 +44,7 @@ export const Wrapper = styled.details`
     transform: translateY(-50%) rotate(-90deg);
   }
 `;
+
+export const Content = styled.div`
+  padding: 10px;
+`;

@@ -3,14 +3,12 @@ import { Button } from 'components/atoms/Button/Button';
 import Input from 'components/atoms/Input/Input';
 import Accordion from 'components/organisms/Accordion/Accordion';
 import Exercise from 'components/molecules/Exercise/Exercise';
-import Notes from 'components/molecules/Notes/Notes';
 import { useModal } from 'hooks/useModal';
 import ModalConfirm from 'components/organisms/Modal/ModalConfirm';
 import ModalAddExercise from 'components/organisms/Modal/ModalAddExercise';
 
 import {
   Wrapper,
-  DateInput,
   StyledLabel,
   FormField,
   ExercisesContainer,
@@ -38,7 +36,7 @@ const AddWorkout = () => {
     <Wrapper>
       <FormField>
         <StyledLabel htmlFor="starting-date">date: </StyledLabel>
-        <DateInput
+        <Input
           type="date"
           id="starting-date"
           name="workout-start"
@@ -81,7 +79,12 @@ const AddWorkout = () => {
         )}
 
         <Accordion title="notes" isSmall>
-          <Notes />
+          <Input
+            type="textarea"
+            rows="4"
+            id="notes"
+            placeholder="notes on training, technique, exercises etc..."
+          />
         </Accordion>
       </ExercisesContainer>
 

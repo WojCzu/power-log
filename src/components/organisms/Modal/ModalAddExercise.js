@@ -20,7 +20,7 @@ const ModalAddExercise = ({ closeModal, ...props }) => {
         <div>
           <p>repetitions:</p>
           <div>
-            <StyledRadio
+            <Input
               type="radio"
               id="reps"
               value="reps"
@@ -29,7 +29,7 @@ const ModalAddExercise = ({ closeModal, ...props }) => {
             <label htmlFor="reps">reps</label>
           </div>
           <div>
-            <StyledRadio
+            <Input
               type="radio"
               id="seconds"
               value="seconds"
@@ -53,10 +53,6 @@ const ModalAddExercise = ({ closeModal, ...props }) => {
 
 export default ModalAddExercise;
 
-const StyledRadio = styled.input`
-  accent-color: ${({ theme }) => theme.color.purple};
-  margin-right: 10px;
-`;
 const FormField = styled.div`
   display: flex;
   flex-direction: ${({ isColumn }) => isColumn && 'column'};

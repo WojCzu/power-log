@@ -1,3 +1,4 @@
+import { darkOutline } from 'assets/styles/outline';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
@@ -30,7 +31,7 @@ export const Wrapper = styled.div`
   }
 `;
 
-export const StyledInput = styled.input`
+export const TextInput = styled.input`
   background: none;
   padding: 0.3em;
   margin: 0;
@@ -50,4 +51,32 @@ export const StyledInput = styled.input`
   &::placeholder {
     color: ${({ theme }) => theme.color.gray};
   }
+`;
+
+export const DateInput = styled.input`
+  margin: 0;
+  font-size: ${({ theme }) => theme.fontSize.m};
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.color.black};
+
+  &::-webkit-calendar-picker-indicator {
+    margin: 0;
+  }
+  ${darkOutline}
+`;
+
+export const RadioInput = styled.input`
+  accent-color: ${({ theme }) => theme.color.purple};
+`;
+
+export const StyledTextarea = styled.textarea`
+  width: 100%;
+  resize: vertical;
+
+  color: ${({ theme }) => theme.color.black};
+  font-size: ${({ theme }) => theme.fontSize.m};
+  background-color: ${({ theme }) => theme.color.white};
+  border: none;
+  ${darkOutline}
 `;
