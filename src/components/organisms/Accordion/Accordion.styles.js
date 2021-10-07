@@ -34,8 +34,6 @@ export const StyledSummary = styled.summary`
 `;
 
 export const Wrapper = styled.details`
-  margin: 24px 0;
-
   background-color: ${({ theme }) => theme.color.white};
   border-radius: 0 0 16px 16px;
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.25);
