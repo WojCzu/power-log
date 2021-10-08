@@ -8,6 +8,8 @@ import ModalAddExercise from 'components/organisms/Modal/ModalAddExercise';
 import FormField from 'components/molecules/FormField/FormField';
 import { Wrapper, ExercisesContainer } from './AddWorkout.styles';
 
+import { v4 as uuid } from 'uuid';
+
 const AddWorkout = () => {
   const { isModalOpen, toggleOpenModal } = useModal();
   const {
@@ -18,6 +20,15 @@ const AddWorkout = () => {
   const today = new Date().toISOString().split('T')[0];
   const [date, setDate] = useState(today);
   const [workoutTitle, setWorkoutTitle] = useState('');
+
+  const [inputFields, setInputFields] = useState([]);
+
+  const handleAddExercise = (exerciseName, repetitionsType) => {
+    setInputFields([
+      ...inputFields,
+      { id: uuid(), title: exerciseName, volumeType: repetitionsType },
+    ]);
+  };
 
   const handleDateChange = (e) => {
     setDate(e.target.value);
@@ -51,13 +62,11 @@ const AddWorkout = () => {
       />
 
       <ExercisesContainer>
-        <Accordion title="Low bar squat">
-          <Exercise />
-        </Accordion>
-
-        <Accordion title="Bulgarian split squat">
-          <Exercise />
-        </Accordion>
+        {inputFields.map(({ id, title, volumeType }) => (
+          <Accordion key={id} title={title}>
+            <Exercise volumeType={volumeType} />
+          </Accordion>
+        ))}
 
         <Button isPrimary isFullWidth type="button" onClick={toggleOpenModal}>
           add exercise
@@ -67,6 +76,7 @@ const AddWorkout = () => {
             isOpen={isModalOpen}
             closeModal={toggleOpenModal}
             modalTitle="Add new exercise"
+            handleAddExercise={handleAddExercise}
           />
         )}
 

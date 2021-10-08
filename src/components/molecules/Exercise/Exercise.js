@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 import ExerciseSet from 'components/molecules/ExerciseSet/ExerciseSet';
 import { StyledButton } from './Exercise.styles';
 
-const Exercise = () => {
+const Exercise = ({ volumeType }) => {
   const [inputFields, setInputFields] = useState([
     { id: uuid(), weight: '', volume: '' },
   ]);
@@ -29,7 +29,7 @@ const Exercise = () => {
             onWeightChange={() => console.log(123)}
             volume={volume}
             onVolumeChange={() => console.log(123)}
-            volumeType="reps"
+            volumeType={volumeType}
             handleDeleteSet={() => handleDeleteSet(id)}
           />
         );

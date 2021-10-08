@@ -1,14 +1,28 @@
 import { Button } from 'components/atoms/Button/Button';
 import { SrOnly } from 'components/atoms/SrOnly/SrOnly';
 import FormField from 'components/molecules/FormField/FormField';
-import React from 'react';
+import React, { useState } from 'react';
 import Modal from './Modal';
 import { ButtonsWrapper, Content } from './Modal.styles';
 
-const ModalAddExercise = ({ closeModal, ...props }) => {
+const ModalAddExercise = ({ closeModal, handleAddExercise, ...props }) => {
+  const [exerciseName, setExerciseName] = useState('');
+  const [repetitionsType, setRepetitionsType] = useState('reps');
+
   return (
     <Modal closeModal={closeModal} {...props}>
-      <Content as="form">
+      <Content
+        as="form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (exerciseName.length >= 3) {
+            handleAddExercise(exerciseName, repetitionsType);
+            closeModal();
+          } else {
+            console.log('error, show it here');
+          }
+        }}
+      >
         <SrOnly id="modal__description">
           Fill form to add new exercise to workout
         </SrOnly>
@@ -17,10 +31,13 @@ const ModalAddExercise = ({ closeModal, ...props }) => {
             label="name:"
             type="text"
             id="exercise-name"
+            name="exercise-name"
             placeholder="exercise name"
             isColumn
+            value={exerciseName}
+            onChange={(e) => setExerciseName(e.target.value)}
           />
-          <div>
+          <div onChange={(e) => setRepetitionsType(e.target.value)}>
             <p>repetitions:</p>
 
             <FormField
@@ -29,13 +46,14 @@ const ModalAddExercise = ({ closeModal, ...props }) => {
               id="reps"
               value="reps"
               name="repetitions-type"
+              defaultChecked
             />
 
             <FormField
               label="seconds"
               type="radio"
-              id="seconds"
-              value="seconds"
+              id="secs"
+              value="secs"
               name="repetitions-type"
             />
           </div>
@@ -44,7 +62,7 @@ const ModalAddExercise = ({ closeModal, ...props }) => {
           <Button type="button" onClick={closeModal}>
             cancel
           </Button>
-          <Button type="button" isPrimary>
+          <Button type="submit" isPrimary>
             add
           </Button>
         </ButtonsWrapper>
