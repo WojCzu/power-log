@@ -9,13 +9,13 @@ const Exercise = () => {
   ]);
 
   const handleAddSet = () => {
-    setInputFields(...inputFields, { id: uuid(), weight: '', volume: '' });
+    setInputFields([...inputFields, { id: uuid(), weight: '', volume: '' }]);
   };
 
-  const handleDeleteSet = (index) => {
+  const handleDeleteSet = (idToDelete) => {
     const values = [...inputFields];
-    values.splice(index, 1);
-    setInputFields(values);
+    const filteredValues = values.filter(({ id }) => id !== idToDelete);
+    setInputFields(filteredValues);
   };
 
   return (
@@ -30,7 +30,7 @@ const Exercise = () => {
             volume={volume}
             onVolumeChange={() => console.log(123)}
             volumeType="reps"
-            handleDeleteSet={() => handleDeleteSet(index)}
+            handleDeleteSet={() => handleDeleteSet(id)}
           />
         );
       })}
