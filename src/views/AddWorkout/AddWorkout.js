@@ -30,6 +30,12 @@ const AddWorkout = () => {
     ]);
   };
 
+  const handleDeleteExercise = (idToDelete) => {
+    const values = [...inputFields];
+    const filteredValues = values.filter(({ id }) => id !== idToDelete);
+    setInputFields(filteredValues);
+  };
+
   const handleDateChange = (e) => {
     setDate(e.target.value);
   };
@@ -63,7 +69,12 @@ const AddWorkout = () => {
 
       <ExercisesContainer>
         {inputFields.map(({ id, title, volumeType }) => (
-          <Accordion key={id} title={title}>
+          <Accordion
+            key={id}
+            title={title}
+            handleDelete={() => handleDeleteExercise(id)}
+            hasDeleteButton
+          >
             <Exercise volumeType={volumeType} />
           </Accordion>
         ))}
