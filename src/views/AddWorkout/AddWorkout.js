@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from 'components/atoms/Button/Button';
 import Accordion from 'components/organisms/Accordion/Accordion';
 import Exercise from 'components/molecules/Exercise/Exercise';
@@ -7,8 +7,7 @@ import ModalConfirm from 'components/organisms/Modal/ModalConfirm';
 import ModalAddExercise from 'components/organisms/Modal/ModalAddExercise';
 import FormField from 'components/molecules/FormField/FormField';
 import { Wrapper, ExercisesContainer } from './AddWorkout.styles';
-
-import { v4 as uuid } from 'uuid';
+import { useWorkout } from 'hooks/useWorkout';
 
 const AddWorkout = () => {
   const { isModalOpen, toggleOpenModal } = useModal();
@@ -17,31 +16,12 @@ const AddWorkout = () => {
     toggleOpenModal: toggleOpenEndWorkout,
   } = useModal();
 
+  const {
+    data: { date, name, exercises, notes },
+    deleteExercise,
+  } = useWorkout();
+
   const today = new Date().toISOString().split('T')[0];
-  const [date, setDate] = useState(today);
-  const [workoutTitle, setWorkoutTitle] = useState('');
-
-  const [inputFields, setInputFields] = useState([]);
-
-  const handleAddExercise = (exerciseName, repetitionsType) => {
-    setInputFields([
-      ...inputFields,
-      { id: uuid(), title: exerciseName, volumeType: repetitionsType },
-    ]);
-  };
-
-  const handleDeleteExercise = (idToDelete) => {
-    const values = [...inputFields];
-    const filteredValues = values.filter(({ id }) => id !== idToDelete);
-    setInputFields(filteredValues);
-  };
-
-  const handleDateChange = (e) => {
-    setDate(e.target.value);
-  };
-  const handleTitleChange = (e) => {
-    setWorkoutTitle(e.target.value);
-  };
 
   return (
     <Wrapper>
@@ -52,15 +32,16 @@ const AddWorkout = () => {
         name="workout-start"
         value={date}
         max={today}
-        onChange={handleDateChange}
+        onChange={() => console.log(123)}
       />
 
       <FormField
         label="title:"
         type="text"
         id="workout-title"
-        value={workoutTitle}
-        onChange={handleTitleChange}
+        name="workout-title"
+        value={name}
+        onChange={() => console.log(123)}
         placeholder="workout name"
         isBig
         isColumn
@@ -68,17 +49,16 @@ const AddWorkout = () => {
       />
 
       <ExercisesContainer>
-        {inputFields.map(({ id, title, volumeType }) => (
+        {exercises.map(({ id, name, volumeType, sets }) => (
           <Accordion
             key={id}
-            title={title}
-            handleDelete={() => handleDeleteExercise(id)}
+            title={name}
+            handleDelete={() => deleteExercise(id)}
             hasDeleteButton
           >
-            <Exercise volumeType={volumeType} />
+            <Exercise volumeType={volumeType} sets={sets} id={id} />
           </Accordion>
         ))}
-
         <Button isPrimary isFullWidth type="button" onClick={toggleOpenModal}>
           add exercise
         </Button>
@@ -87,17 +67,18 @@ const AddWorkout = () => {
             isOpen={isModalOpen}
             closeModal={toggleOpenModal}
             modalTitle="Add new exercise"
-            handleAddExercise={handleAddExercise}
           />
         )}
-
         <Accordion title="notes" isSmall>
           <FormField
             label="notes on training:"
             type="textarea"
             rows="4"
             id="notes"
+            name="notes"
             placeholder="notes on training, technique, exercises etc..."
+            value={notes}
+            onChange={() => console.log(123)}
             isLabelHidden
           />
         </Accordion>

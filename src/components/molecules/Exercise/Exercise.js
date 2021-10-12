@@ -1,26 +1,13 @@
-import React, { useState } from 'react';
-import { v4 as uuid } from 'uuid';
+import React from 'react';
 import ExerciseSet from 'components/molecules/ExerciseSet/ExerciseSet';
 import { StyledButton } from './Exercise.styles';
+import { useWorkout } from 'hooks/useWorkout';
 
-const Exercise = ({ volumeType }) => {
-  const [inputFields, setInputFields] = useState([
-    { id: uuid(), weight: '', volume: '' },
-  ]);
-
-  const handleAddSet = () => {
-    setInputFields([...inputFields, { id: uuid(), weight: '', volume: '' }]);
-  };
-
-  const handleDeleteSet = (idToDelete) => {
-    const values = [...inputFields];
-    const filteredValues = values.filter(({ id }) => id !== idToDelete);
-    setInputFields(filteredValues);
-  };
-
+const Exercise = ({ volumeType, sets, id: exerciseId }) => {
+  const { addSet, deleteSet } = useWorkout();
   return (
     <>
-      {inputFields.map(({ id, weight, volume }, index) => {
+      {sets.map(({ id, weight, volume }, index) => {
         return (
           <ExerciseSet
             key={id}
@@ -30,11 +17,15 @@ const Exercise = ({ volumeType }) => {
             volume={volume}
             onVolumeChange={() => console.log(123)}
             volumeType={volumeType}
-            handleDeleteSet={() => handleDeleteSet(id)}
+            handleDeleteSet={() => deleteSet(exerciseId, id)}
           />
         );
       })}
-      <StyledButton isFullWidth type="button" onClick={handleAddSet}>
+      <StyledButton
+        isFullWidth
+        type="button"
+        onClick={() => addSet(exerciseId)}
+      >
         add set
       </StyledButton>
     </>

@@ -1,6 +1,7 @@
 import { Button } from 'components/atoms/Button/Button';
 import { SrOnly } from 'components/atoms/SrOnly/SrOnly';
 import FormField from 'components/molecules/FormField/FormField';
+import { useWorkout } from 'hooks/useWorkout';
 import React, { useState } from 'react';
 import Modal from './Modal';
 import { ButtonsWrapper, Content } from './Modal.styles';
@@ -8,6 +9,7 @@ import { ButtonsWrapper, Content } from './Modal.styles';
 const ModalAddExercise = ({ closeModal, handleAddExercise, ...props }) => {
   const [exerciseName, setExerciseName] = useState('');
   const [repetitionsType, setRepetitionsType] = useState('reps');
+  const { addExercise } = useWorkout();
 
   return (
     <Modal closeModal={closeModal} {...props}>
@@ -16,7 +18,7 @@ const ModalAddExercise = ({ closeModal, handleAddExercise, ...props }) => {
         onSubmit={(e) => {
           e.preventDefault();
           if (exerciseName.length >= 3) {
-            handleAddExercise(exerciseName, repetitionsType);
+            addExercise(exerciseName, repetitionsType);
             closeModal();
           } else {
             console.log('error, show it here');
