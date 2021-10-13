@@ -19,6 +19,7 @@ const AddWorkout = () => {
   const {
     data: { date, name, exercises, notes },
     deleteExercise,
+    handleInputChange,
   } = useWorkout();
 
   const today = new Date().toISOString().split('T')[0];
@@ -32,7 +33,7 @@ const AddWorkout = () => {
         name="workout-start"
         value={date}
         max={today}
-        onChange={() => console.log(123)}
+        onChange={(e) => handleInputChange('date', e.target.value)}
       />
 
       <FormField
@@ -41,7 +42,7 @@ const AddWorkout = () => {
         id="workout-title"
         name="workout-title"
         value={name}
-        onChange={() => console.log(123)}
+        onChange={(e) => handleInputChange('name', e.target.value)}
         placeholder="workout name"
         isBig
         isColumn
@@ -78,7 +79,7 @@ const AddWorkout = () => {
             name="notes"
             placeholder="notes on training, technique, exercises etc..."
             value={notes}
-            onChange={() => console.log(123)}
+            onChange={(e) => handleInputChange('notes', e.target.value)}
             isLabelHidden
           />
         </Accordion>

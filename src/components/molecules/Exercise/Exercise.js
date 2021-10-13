@@ -4,7 +4,7 @@ import { StyledButton } from './Exercise.styles';
 import { useWorkout } from 'hooks/useWorkout';
 
 const Exercise = ({ volumeType, sets, id: exerciseId }) => {
-  const { addSet, deleteSet } = useWorkout();
+  const { addSet, deleteSet, handleInputChange } = useWorkout();
   return (
     <>
       {sets.map(({ id, weight, volume }, index) => {
@@ -13,9 +13,13 @@ const Exercise = ({ volumeType, sets, id: exerciseId }) => {
             key={id}
             setNumber={index + 1}
             weight={weight}
-            onWeightChange={() => console.log(123)}
+            onWeightChange={(e) =>
+              handleInputChange('weight', e.target.value, exerciseId, id)
+            }
             volume={volume}
-            onVolumeChange={() => console.log(123)}
+            onVolumeChange={(e) =>
+              handleInputChange('volume', e.target.value, exerciseId, id)
+            }
             volumeType={volumeType}
             handleDeleteSet={() => deleteSet(exerciseId, id)}
           />

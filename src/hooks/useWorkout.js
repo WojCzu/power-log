@@ -6,16 +6,16 @@ const actionTypes = {
   deleteExercise: 'DELETE_EXERCISE',
   addSet: 'ADD_SET',
   deleteSet: 'DELETE_SET',
+  inputChange: 'INPUT_CHANGE',
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case actionTypes.addExercise:
-      const exercises = state.exercises;
       return {
         ...state,
         exercises: [
-          ...exercises,
+          ...state.exercises,
           {
             id: uuid(),
             name: action.payload.name,
@@ -34,10 +34,9 @@ const reducer = (state, action) => {
     case actionTypes.addSet:
       const exercisesWithNewSet = state.exercises.map((exercise) => {
         if (exercise.id === action.payload.exerciseId) {
-          const sets = exercise.sets;
           return {
             ...exercise,
-            sets: [...sets, { id: uuid(), weight: '', volume: '' }],
+            sets: [...exercise.sets, { id: uuid(), weight: '', volume: '' }],
           };
         }
         return exercise;
@@ -55,6 +54,27 @@ const reducer = (state, action) => {
         return exercise;
       });
       return { ...state, exercises: [...exercisesAfterDeleteSet] };
+
+    case actionTypes.inputChange:
+      if (
+        action.payload.field === 'weight' ||
+        action.payload.field === 'volume'
+      ) {
+        const exerciseToChange = state.exercises.find(
+          ({ id }) => id === action.payload.exerciseId
+        );
+
+        const setToChange = exerciseToChange.sets.find(
+          ({ id }) => id === action.payload.setId
+        );
+
+        setToChange[action.payload.field] = action.payload.value;
+
+        return { ...state };
+      }
+
+      state[action.payload.field] = action.payload.value;
+      return { ...state };
 
     default:
       return state;
@@ -88,9 +108,23 @@ export const WorkoutProvider = ({ children }) => {
     dispatch({ type: actionTypes.deleteSet, payload: { exerciseId, id } });
   };
 
+  const handleInputChange = (field, value, exerciseId, setId) => {
+    dispatch({
+      type: actionTypes.inputChange,
+      payload: { field, value, exerciseId, setId },
+    });
+  };
+
   return (
     <WorkoutContext.Provider
-      value={{ data, addExercise, deleteExercise, addSet, deleteSet }}
+      value={{
+        data,
+        addExercise,
+        deleteExercise,
+        addSet,
+        deleteSet,
+        handleInputChange,
+      }}
     >
       {children}
     </WorkoutContext.Provider>
