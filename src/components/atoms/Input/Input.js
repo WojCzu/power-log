@@ -11,6 +11,7 @@ import {
 const Input = ({ type = 'text', ...props }) => {
   switch (type) {
     case 'text':
+    case 'number':
       return (
         <Wrapper>
           <TextInput type={type} {...props} />

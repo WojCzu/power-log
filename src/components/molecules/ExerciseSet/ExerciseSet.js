@@ -22,11 +22,15 @@ const ExerciseSet = ({
           id={`set${setNumber}-weight`}
           name="weight"
           isLabelHidden
-          type="text"
+          type="number"
           value={weight}
           onChange={onWeightChange}
           isTextCenter
           customWidth="64px"
+          required
+          min="0"
+          max="999.75"
+          step="0.25"
         />
         <StyledSpan>kg</StyledSpan>
 
@@ -35,11 +39,15 @@ const ExerciseSet = ({
           id={`set${setNumber}-${volumeType}`}
           name={volumeType}
           isLabelHidden
-          type="text"
+          type="number"
           value={volume}
           onChange={onVolumeChange}
           isTextCenter
           customWidth="32px"
+          required
+          min="0"
+          max="999"
+          step="1"
         />
         <StyledSpan>{volumeType}</StyledSpan>
       </StyledInfo>

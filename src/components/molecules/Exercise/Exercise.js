@@ -5,6 +5,7 @@ import { useWorkout } from 'hooks/useWorkout';
 
 const Exercise = ({ volumeType, sets, id: exerciseId }) => {
   const { addSet, deleteSet, handleInputChange } = useWorkout();
+
   return (
     <>
       {sets.map(({ id, weight, volume }, index) => {

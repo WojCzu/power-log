@@ -25,7 +25,11 @@ const AddWorkout = () => {
   const today = new Date().toISOString().split('T')[0];
 
   return (
-    <Wrapper>
+    <Wrapper
+      onSubmit={(e) => {
+        e.preventDefault();
+      }}
+    >
       <FormField
         label="date:"
         type="date"
@@ -34,6 +38,7 @@ const AddWorkout = () => {
         value={date}
         max={today}
         onChange={(e) => handleInputChange('date', e.target.value)}
+        required
       />
 
       <FormField

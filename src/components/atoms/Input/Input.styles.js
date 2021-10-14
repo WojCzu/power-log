@@ -51,6 +51,15 @@ export const TextInput = styled.input`
   &::placeholder {
     color: ${({ theme }) => theme.color.gray};
   }
+
+  &[type='number'] {
+    -moz-appearance: textfield;
+  }
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
 export const DateInput = styled.input`
