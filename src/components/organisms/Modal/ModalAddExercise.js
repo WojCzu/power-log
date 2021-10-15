@@ -17,12 +17,9 @@ const ModalAddExercise = ({ closeModal, handleAddExercise, ...props }) => {
         as="form"
         onSubmit={(e) => {
           e.preventDefault();
-          if (exerciseName.length >= 3) {
-            addExercise(exerciseName, repetitionsType);
-            closeModal();
-          } else {
-            console.log('error, show it here');
-          }
+          addExercise(exerciseName, repetitionsType);
+          closeModal();
+          e.stopPropagation();
         }}
       >
         <SrOnly id="modal__description">
@@ -38,6 +35,7 @@ const ModalAddExercise = ({ closeModal, handleAddExercise, ...props }) => {
             isColumn
             value={exerciseName}
             onChange={(e) => setExerciseName(e.target.value)}
+            required
           />
           <div onChange={(e) => setRepetitionsType(e.target.value)}>
             <p>repetitions:</p>

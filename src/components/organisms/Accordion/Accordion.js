@@ -10,11 +10,11 @@ const Accordion = ({
   ...props
 }) => {
   return (
-    <Wrapper open>
-      <StyledSummary {...props}>
+    <Wrapper open {...props}>
+      <StyledSummary>
         {title}{' '}
         {hasDeleteButton && (
-          <CloseButton isWhite onClick={handleDelete}>
+          <CloseButton type="button" isWhite onClick={handleDelete}>
             X
           </CloseButton>
         )}

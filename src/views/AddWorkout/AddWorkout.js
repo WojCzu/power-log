@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'components/atoms/Button/Button';
 import Accordion from 'components/organisms/Accordion/Accordion';
-import Exercise from 'components/molecules/Exercise/Exercise';
+import Exercise from 'components/organisms/Exercise/Exercise';
 import { useModal } from 'hooks/useModal';
 import ModalConfirm from 'components/organisms/Modal/ModalConfirm';
 import ModalAddExercise from 'components/organisms/Modal/ModalAddExercise';
@@ -18,16 +18,34 @@ const AddWorkout = () => {
 
   const {
     data: { date, name, exercises, notes },
-    deleteExercise,
     handleInputChange,
   } = useWorkout();
 
   const today = new Date().toISOString().split('T')[0];
 
+  //It may not be thee greatest but it works
+  const checkRequiredInput = () => {
+    exercises.forEach(({ id, sets }) => {
+      for (const { weight, volume } of sets) {
+        if ([weight, volume].includes('')) {
+          const accordion = document.querySelector(`[data-id="${id}"]`);
+          accordion.setAttribute('open', true);
+          break;
+        }
+      }
+    });
+  };
+
   return (
     <Wrapper
       onSubmit={(e) => {
         e.preventDefault();
+        toggleOpenEndWorkout();
+      }}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          checkRequiredInput();
+        }
       }}
     >
       <FormField
@@ -56,14 +74,13 @@ const AddWorkout = () => {
 
       <ExercisesContainer>
         {exercises.map(({ id, name, volumeType, sets }) => (
-          <Accordion
+          <Exercise
+            volumeType={volumeType}
+            sets={sets}
+            id={id}
             key={id}
             title={name}
-            handleDelete={() => deleteExercise(id)}
-            hasDeleteButton
-          >
-            <Exercise volumeType={volumeType} sets={sets} id={id} />
-          </Accordion>
+          />
         ))}
         <Button isPrimary isFullWidth type="button" onClick={toggleOpenModal}>
           add exercise
@@ -90,7 +107,7 @@ const AddWorkout = () => {
         </Accordion>
       </ExercisesContainer>
 
-      <Button type="button" onClick={toggleOpenEndWorkout}>
+      <Button type="submit" onClick={checkRequiredInput}>
         end workout
       </Button>
       {isEndWorkoutOpen && (
