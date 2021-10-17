@@ -3,7 +3,8 @@ export const theme = {
     black: '#2A3950',
     white: '#FDFBFB',
     lightGray: '#EBEDEE',
-    purple: '#B44C78',
+    gray: '#d7d7d7',
+    purple: '#BB3A67',
     darkPurple: '#823567',
   },
 

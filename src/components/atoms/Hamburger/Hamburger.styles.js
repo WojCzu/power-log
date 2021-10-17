@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { lightOutline } from 'assets/styles/outline';
 
 export const Wrapper = styled.button`
   height: 36px;
@@ -10,6 +11,8 @@ export const Wrapper = styled.button`
   cursor: pointer;
 
   transform: translateX(6px);
+
+  ${lightOutline}
 `;
 
 export const Box = styled.span`

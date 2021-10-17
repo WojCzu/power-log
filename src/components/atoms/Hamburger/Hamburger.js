@@ -1,5 +1,5 @@
 import React from 'react';
-import { SrOnly } from 'components/SrOnly/SrOnly';
+import { SrOnly } from 'components/atoms/SrOnly/SrOnly';
 import { Wrapper, Box } from './Hamburger.styles';
 
 const Hamburger = ({ handleClick, isOpen, hamburgerRef }) => {
