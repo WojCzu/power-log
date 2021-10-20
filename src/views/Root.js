@@ -4,14 +4,17 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from 'assets/styles/theme';
 import App from './App/App';
 import { WorkoutProvider } from 'hooks/useWorkout';
+import { FirestoreProvider } from 'hooks/useFirestore';
 
 const Root = () => (
   <>
     <ThemeProvider theme={theme}>
-      <WorkoutProvider>
-        <GlobalStyles />
-        <App />
-      </WorkoutProvider>
+      <FirestoreProvider>
+        <WorkoutProvider>
+          <GlobalStyles />
+          <App />
+        </WorkoutProvider>
+      </FirestoreProvider>
     </ThemeProvider>
   </>
 );

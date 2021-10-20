@@ -1,4 +1,5 @@
-import React, { useReducer, useContext } from 'react';
+import React, { useReducer, useContext, createContext } from 'react';
+import dayjs from 'dayjs';
 import { v4 as uuid } from 'uuid';
 
 const actionTypes = {
@@ -7,6 +8,7 @@ const actionTypes = {
   addSet: 'ADD_SET',
   deleteSet: 'DELETE_SET',
   inputChange: 'INPUT_CHANGE',
+  resetState: 'RESET_STATE',
 };
 
 const reducer = (state, action) => {
@@ -76,14 +78,20 @@ const reducer = (state, action) => {
       state[action.payload.field] = action.payload.value;
       return { ...state };
 
+    case actionTypes.resetState:
+      return { ...initialState };
     default:
       return state;
   }
 };
 
-const WorkoutContext = React.createContext({});
-const today = new Date().toISOString().split('T')[0];
-const initialState = { date: today, name: '', exercises: [], notes: '' };
+const WorkoutContext = createContext({});
+const initialState = {
+  date: dayjs().format('YYYY-MM-DD'),
+  title: '',
+  exercises: [],
+  notes: '',
+};
 //TODO - localStorage workout && initialState - clear localStorage after submit
 
 export const WorkoutProvider = ({ children }) => {
@@ -115,6 +123,10 @@ export const WorkoutProvider = ({ children }) => {
     });
   };
 
+  const resetState = () => {
+    dispatch({ type: actionTypes.resetState });
+  };
+
   return (
     <WorkoutContext.Provider
       value={{
@@ -124,6 +136,7 @@ export const WorkoutProvider = ({ children }) => {
         addSet,
         deleteSet,
         handleInputChange,
+        resetState,
       }}
     >
       {children}

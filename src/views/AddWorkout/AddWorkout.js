@@ -8,6 +8,8 @@ import ModalAddExercise from 'components/organisms/Modal/ModalAddExercise';
 import FormField from 'components/molecules/FormField/FormField';
 import { Wrapper, ExercisesContainer } from './AddWorkout.styles';
 import { useWorkout } from 'hooks/useWorkout';
+import { useFirestore } from 'hooks/useFirestore';
+import dayjs from 'dayjs';
 
 const AddWorkout = () => {
   const { isModalOpen, toggleOpenModal } = useModal();
@@ -15,13 +17,13 @@ const AddWorkout = () => {
     isModalOpen: isEndWorkoutOpen,
     toggleOpenModal: toggleOpenEndWorkout,
   } = useModal();
-
   const {
-    data: { date, name, exercises, notes },
+    data: { date, title, exercises, notes },
     handleInputChange,
+    resetState,
   } = useWorkout();
 
-  const today = new Date().toISOString().split('T')[0];
+  const { addWorkout } = useFirestore();
 
   //It may not be thee greatest but it works
   const checkRequiredInput = () => {
@@ -34,6 +36,21 @@ const AddWorkout = () => {
         }
       }
     });
+  };
+
+  const handleEndWorkout = async () => {
+    try {
+      await addWorkout({
+        date: new Date(date),
+        title: `${title || 'Unnamed'}`,
+        exercises,
+        notes,
+      });
+      toggleOpenEndWorkout();
+      resetState();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -54,7 +71,7 @@ const AddWorkout = () => {
         id="starting-date"
         name="workout-start"
         value={date}
-        max={today}
+        max={dayjs().format('YYYY-MM-DD')}
         onChange={(e) => handleInputChange('date', e.target.value)}
         required
       />
@@ -64,8 +81,8 @@ const AddWorkout = () => {
         type="text"
         id="workout-title"
         name="workout-title"
-        value={name}
-        onChange={(e) => handleInputChange('name', e.target.value)}
+        value={title}
+        onChange={(e) => handleInputChange('title', e.target.value)}
         placeholder="workout name"
         isBig
         isColumn
@@ -115,7 +132,7 @@ const AddWorkout = () => {
           isOpen={isEndWorkoutOpen}
           closeModal={toggleOpenEndWorkout}
           modalTitle="End workout?"
-          handleConfirm={() => console.log(123)}
+          handleConfirm={handleEndWorkout}
         >
           Are you sure, you want to end your workout?
         </ModalConfirm>
