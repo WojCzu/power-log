@@ -41,8 +41,9 @@ export const FirestoreProvider = ({ children }) => {
 
   useEffect(() => {
     const getData = async () => {
+      if (!user?.uid) return [];
       const workoutQuery = query(
-        collection(db, 'workouts'),
+        collection(db, `users/${user.uid}/workouts`),
         orderBy('date', 'desc')
       );
       const workoutsSnapshot = await getDocs(workoutQuery);
@@ -57,14 +58,15 @@ export const FirestoreProvider = ({ children }) => {
       return workoutsList;
     };
     getData().then((data) => setData(data));
-  }, [db]);
+  }, [db, user]);
 
   const getWorkoutById = (id) => {
     return data.find((workout) => workout.id === id);
   };
 
   const addWorkout = (workout) => {
-    return addDoc(collection(db, 'workouts'), workout);
+    if (!user?.uid) return;
+    return addDoc(collection(db, `users/${user.uid}/workouts`), workout);
   };
 
   const addUser = (userId) => {
