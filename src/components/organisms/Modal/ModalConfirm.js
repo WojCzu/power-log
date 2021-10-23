@@ -12,7 +12,7 @@ const ModalConfirm = ({ closeModal, handleConfirm, children, ...props }) => {
         </StyledDescription>
         <ButtonsWrapper>
           <Button onClick={closeModal}>cancel</Button>
-          <Button isPrimary onClick={handleConfirm}>
+          <Button $isPrimary onClick={handleConfirm}>
             confirm
           </Button>
         </ButtonsWrapper>

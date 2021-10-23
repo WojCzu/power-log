@@ -3,12 +3,17 @@ import {
   getFirestore,
   collection,
   getDocs,
+  setDoc,
+  doc,
   addDoc,
   query,
   orderBy,
 } from 'firebase/firestore/lite';
+import { getAuth } from 'firebase/auth';
 import dayjs from 'dayjs';
 import { createContext, useContext, useEffect, useState } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { getLocalStorage, setLocalStorage } from 'helpers/expiryLocalStorage';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIRESTORE_KEY,
@@ -25,6 +30,14 @@ export const FirestoreProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
+  const auth = getAuth();
+
+  const [user, setUser] = useState(getLocalStorage('user'));
+
+  onAuthStateChanged(auth, (user) => {
+    setUser(user);
+    setLocalStorage('user', user);
+  });
 
   useEffect(() => {
     const getData = async () => {
@@ -54,8 +67,14 @@ export const FirestoreProvider = ({ children }) => {
     return addDoc(collection(db, 'workouts'), workout);
   };
 
+  const addUser = (userId) => {
+    return setDoc(doc(db, 'users', userId), {});
+  };
+
   return (
-    <FirestoreContext.Provider value={{ data, getWorkoutById, addWorkout }}>
+    <FirestoreContext.Provider
+      value={{ data, getWorkoutById, addWorkout, addUser, auth, user }}
+    >
       {children}
     </FirestoreContext.Provider>
   );

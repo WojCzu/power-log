@@ -55,7 +55,7 @@ const Navigation = () => {
         isOpen={isOpen}
         hamburgerRef={hamburgerRef}
       />
-      <NavList isOpen={isOpen} />
+      <NavList isOpen={isOpen} closeNav={() => setIsOpen(false)} />
     </StyledNav>
   );
 };

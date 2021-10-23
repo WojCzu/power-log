@@ -62,7 +62,7 @@ const ModalAddExercise = ({ closeModal, handleAddExercise, ...props }) => {
           <Button type="button" onClick={closeModal}>
             cancel
           </Button>
-          <Button type="submit" isPrimary>
+          <Button type="submit" $isPrimary>
             add
           </Button>
         </ButtonsWrapper>

@@ -99,7 +99,7 @@ const AddWorkout = () => {
             title={name}
           />
         ))}
-        <Button isPrimary isFullWidth type="button" onClick={toggleOpenModal}>
+        <Button $isPrimary $isFullWidth type="button" onClick={toggleOpenModal}>
           add exercise
         </Button>
         {isModalOpen && (
