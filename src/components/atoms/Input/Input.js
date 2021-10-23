@@ -12,6 +12,8 @@ const Input = ({ type = 'text', ...props }) => {
   switch (type) {
     case 'text':
     case 'number':
+    case 'email':
+    case 'password':
       return (
         <Wrapper>
           <TextInput type={type} {...props} />

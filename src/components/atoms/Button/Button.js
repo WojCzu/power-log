@@ -1,19 +1,18 @@
-import styled, { css } from 'styled-components';
-import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { darkOutline } from 'assets/styles/outline';
 
-const styles = css`
+export const Button = styled.button`
   padding: 0.5em 1.5em;
-  width: ${({ isFullWidth }) => (isFullWidth ? '100%' : 'auto')};
+  width: ${({ $isFullWidth }) => ($isFullWidth ? '100%' : 'auto')};
   font-size: ${({ theme }) => theme.fontSize.m};
 
-  background-color: ${({ isPrimary, theme }) =>
-    isPrimary ? theme.color.purple : 'transparent'};
-  color: ${({ isPrimary, theme }) =>
-    isPrimary ? theme.color.lightGray : theme.color.purple};
+  background-color: ${({ $isPrimary, theme }) =>
+    $isPrimary ? theme.color.purple : 'transparent'};
+  color: ${({ $isPrimary, theme }) =>
+    $isPrimary ? theme.color.lightGray : theme.color.purple};
   border: 1px solid;
-  border-color: ${({ isPrimary, theme }) =>
-    isPrimary ? 'transparent' : theme.color.purple};
+  border-color: ${({ $isPrimary, theme }) =>
+    $isPrimary ? 'transparent' : theme.color.purple};
   border-radius: 8px;
 
   text-decoration: none;
@@ -29,13 +28,10 @@ const styles = css`
     color: ${({ theme }) => theme.color.lightGray};
   }
 
+  &:disabled {
+    background-color: ${({ theme }) => theme.color.gray};
+    border-color: ${({ theme }) => theme.color.gray};
+  }
+
   ${darkOutline}
-`;
-
-export const Button = styled.button`
-  ${styles}
-`;
-
-export const StyledLink = styled(Link)`
-  ${styles}
 `;

@@ -23,6 +23,4 @@ export const Wrapper = styled.div`
         margin: 0;
       `}
   }
-
-  align-self: flex-start;
 `;

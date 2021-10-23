@@ -1,5 +1,4 @@
 import React from 'react';
-import { historyWorkouts as data } from 'data/historyWorkouts';
 import {
   Wrapper,
   WorkoutListItem,
@@ -8,14 +7,16 @@ import {
   WorkoutDate,
   StyledButton,
 } from './WorkoutList.styles';
+import { useFirestore } from 'hooks/useFirestore';
 
 const WorkoutList = () => {
+  const { data } = useFirestore();
   return (
     <Wrapper>
       {data.map((workout) => (
         <WorkoutListItem key={workout.id}>
           <WorkoutInfo>
-            <WorkoutName>{workout.name}</WorkoutName>
+            <WorkoutName>{workout.title}</WorkoutName>
             <WorkoutDate>{workout.date}</WorkoutDate>
           </WorkoutInfo>
           <StyledButton />

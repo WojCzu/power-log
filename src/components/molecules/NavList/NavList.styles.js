@@ -59,6 +59,7 @@ export const StyledItem = styled.li`
 `;
 
 export const StyledLink = styled.a`
+  width: 100%;
   display: flex;
   align-items: center;
   padding: 10px 24px;
@@ -73,7 +74,11 @@ export const StyledLink = styled.a`
   text-transform: lowercase;
   text-decoration: none;
 
+  border: none;
+  background: none;
   outline: none;
+  cursor: pointer;
+
   &:hover,
   &:focus {
     color: ${({ theme }) => theme.color.lightGray};

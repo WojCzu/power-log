@@ -1,5 +1,7 @@
-import React, { useReducer, useContext } from 'react';
+import React, { useReducer, useContext, createContext } from 'react';
+import dayjs from 'dayjs';
 import { v4 as uuid } from 'uuid';
+import { getLocalStorage, setLocalStorage } from 'helpers/expiryLocalStorage';
 
 const actionTypes = {
   addExercise: 'ADD_EXERCISE',
@@ -7,84 +9,104 @@ const actionTypes = {
   addSet: 'ADD_SET',
   deleteSet: 'DELETE_SET',
   inputChange: 'INPUT_CHANGE',
+  resetState: 'RESET_STATE',
 };
 
 const reducer = (state, action) => {
-  switch (action.type) {
-    case actionTypes.addExercise:
-      return {
-        ...state,
-        exercises: [
-          ...state.exercises,
-          {
-            id: uuid(),
-            name: action.payload.name,
-            volumeType: action.payload.volumeType,
-            sets: [{ id: uuid(), weight: '', volume: '' }],
-          },
-        ],
-      };
+  let isItemRemoved = false;
+  try {
+    switch (action.type) {
+      case actionTypes.addExercise:
+        return {
+          ...state,
+          exercises: [
+            ...state.exercises,
+            {
+              id: uuid(),
+              name: action.payload.name,
+              volumeType: action.payload.volumeType,
+              sets: [{ id: uuid(), weight: '', volume: '' }],
+            },
+          ],
+        };
 
-    case actionTypes.deleteExercise:
-      const exercisesAfterDelete = state.exercises.filter(
-        ({ id }) => id !== action.payload.id
-      );
-      return { ...state, exercises: [...exercisesAfterDelete] };
+      case actionTypes.deleteExercise:
+        const exercisesAfterDelete = state.exercises.filter(
+          ({ id }) => id !== action.payload.id
+        );
+        return { ...state, exercises: [...exercisesAfterDelete] };
 
-    case actionTypes.addSet:
-      const exercisesWithNewSet = state.exercises.map((exercise) => {
-        if (exercise.id === action.payload.exerciseId) {
-          return {
-            ...exercise,
-            sets: [...exercise.sets, { id: uuid(), weight: '', volume: '' }],
-          };
-        }
-        return exercise;
-      });
-      return { ...state, exercises: [...exercisesWithNewSet] };
+      case actionTypes.addSet:
+        const exercisesWithNewSet = state.exercises.map((exercise) => {
+          if (exercise.id === action.payload.exerciseId) {
+            return {
+              ...exercise,
+              sets: [...exercise.sets, { id: uuid(), weight: '', volume: '' }],
+            };
+          }
+          return exercise;
+        });
+        return { ...state, exercises: [...exercisesWithNewSet] };
 
-    case actionTypes.deleteSet:
-      const exercisesAfterDeleteSet = state.exercises.map((exercise) => {
-        if (exercise.id === action.payload.exerciseId) {
-          const sets = exercise.sets.filter(
-            ({ id }) => id !== action.payload.id
+      case actionTypes.deleteSet:
+        const exercisesAfterDeleteSet = state.exercises.map((exercise) => {
+          if (exercise.id === action.payload.exerciseId) {
+            const sets = exercise.sets.filter(
+              ({ id }) => id !== action.payload.id
+            );
+            return { ...exercise, sets };
+          }
+          return exercise;
+        });
+        return { ...state, exercises: [...exercisesAfterDeleteSet] };
+
+      case actionTypes.inputChange:
+        if (
+          action.payload.field === 'weight' ||
+          action.payload.field === 'volume'
+        ) {
+          const exerciseToChange = state.exercises.find(
+            ({ id }) => id === action.payload.exerciseId
           );
-          return { ...exercise, sets };
+
+          const setToChange = exerciseToChange.sets.find(
+            ({ id }) => id === action.payload.setId
+          );
+
+          setToChange[action.payload.field] = action.payload.value;
+
+          return { ...state };
         }
-        return exercise;
-      });
-      return { ...state, exercises: [...exercisesAfterDeleteSet] };
 
-    case actionTypes.inputChange:
-      if (
-        action.payload.field === 'weight' ||
-        action.payload.field === 'volume'
-      ) {
-        const exerciseToChange = state.exercises.find(
-          ({ id }) => id === action.payload.exerciseId
-        );
-
-        const setToChange = exerciseToChange.sets.find(
-          ({ id }) => id === action.payload.setId
-        );
-
-        setToChange[action.payload.field] = action.payload.value;
-
+        state[action.payload.field] = action.payload.value;
         return { ...state };
-      }
 
-      state[action.payload.field] = action.payload.value;
-      return { ...state };
-
-    default:
-      return state;
+      case actionTypes.resetState:
+        localStorage.removeItem('workout');
+        isItemRemoved = true;
+        return {
+          date: dayjs().format('YYYY-MM-DD'),
+          title: '',
+          exercises: [],
+          notes: '',
+        };
+      default:
+        return state;
+    }
+  } finally {
+    if (!isItemRemoved) {
+      setLocalStorage('workout', state, 4 * 60 * 60 * 1000);
+    }
   }
 };
 
-const WorkoutContext = React.createContext({});
-const today = new Date().toISOString().split('T')[0];
-const initialState = { date: today, name: '', exercises: [], notes: '' };
-//TODO - localStorage workout && initialState - clear localStorage after submit
+const WorkoutContext = createContext({});
+const initialState = getLocalStorage('workout') ?? {
+  date: dayjs().format('YYYY-MM-DD'),
+  title: '',
+  exercises: [],
+  notes: '',
+};
 
 export const WorkoutProvider = ({ children }) => {
   const [data, dispatch] = useReducer(reducer, initialState);
@@ -115,6 +137,10 @@ export const WorkoutProvider = ({ children }) => {
     });
   };
 
+  const resetState = () => {
+    dispatch({ type: actionTypes.resetState });
+  };
+
   return (
     <WorkoutContext.Provider
       value={{
@@ -124,6 +150,7 @@ export const WorkoutProvider = ({ children }) => {
         addSet,
         deleteSet,
         handleInputChange,
+        resetState,
       }}
     >
       {children}
