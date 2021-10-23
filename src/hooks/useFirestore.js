@@ -3,9 +3,11 @@ import {
   getFirestore,
   collection,
   getDocs,
+  getDoc,
   setDoc,
   doc,
   addDoc,
+  deleteDoc,
   query,
   orderBy,
 } from 'firebase/firestore/lite';
@@ -48,11 +50,11 @@ export const FirestoreProvider = ({ children }) => {
       );
       const workoutsSnapshot = await getDocs(workoutQuery);
       const workoutsList = workoutsSnapshot.docs.map((doc) => {
-        const data = doc.data();
+        const workoutData = doc.data();
         return {
           id: doc.id,
-          ...data,
-          date: dayjs(data.date.toDate()).format('DD/MM/YYYY'),
+          ...workoutData,
+          date: dayjs(workoutData.date.toDate()).format('DD/MM/YYYY'),
         };
       });
       return workoutsList;
@@ -60,8 +62,20 @@ export const FirestoreProvider = ({ children }) => {
     getData().then((data) => setData(data));
   }, [db, user]);
 
-  const getWorkoutById = (id) => {
-    return data.find((workout) => workout.id === id);
+  const getWorkoutById = async (workoutId) => {
+    if (!user?.uid) return;
+    const workout = data.find((workout) => workout.id === workoutId);
+    if (workout) return workout;
+
+    const workoutSnapshot = await getDoc(
+      doc(db, `users/${user.uid}/workouts/${workoutId}`)
+    );
+    const workoutData = workoutSnapshot.data();
+    return {
+      id: workoutId,
+      ...workoutData,
+      date: dayjs(workoutData.date.toDate()).format('DD/MM/YYYY'),
+    };
   };
 
   const addWorkout = (workout) => {
@@ -69,13 +83,31 @@ export const FirestoreProvider = ({ children }) => {
     return addDoc(collection(db, `users/${user.uid}/workouts`), workout);
   };
 
+  const deleteWorkout = (workoutId) => {
+    if (!user?.uid) return;
+    return deleteDoc(doc(db, `users/${user.uid}/workouts/${workoutId}`));
+  };
+
+  const updateWorkout = (workout, workoutId) => {
+    if (!user?.uid) return;
+    return setDoc(doc(db, `users/${user.uid}/workouts/${workoutId}`), workout);
+  };
   const addUser = (userId) => {
     return setDoc(doc(db, 'users', userId), {});
   };
 
   return (
     <FirestoreContext.Provider
-      value={{ data, getWorkoutById, addWorkout, addUser, auth, user }}
+      value={{
+        data,
+        getWorkoutById,
+        addWorkout,
+        deleteWorkout,
+        updateWorkout,
+        auth,
+        addUser,
+        user,
+      }}
     >
       {children}
     </FirestoreContext.Provider>
