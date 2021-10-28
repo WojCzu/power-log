@@ -13,7 +13,7 @@ import {
 } from 'firebase/firestore/lite';
 import { getAuth } from 'firebase/auth';
 import dayjs from 'dayjs';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { getLocalStorage, setLocalStorage } from 'helpers/expiryLocalStorage';
 
@@ -29,7 +29,6 @@ const firebaseConfig = {
 const FirestoreContext = createContext({});
 
 export const FirestoreProvider = ({ children }) => {
-  const [data, setData] = useState([]);
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const auth = getAuth();
@@ -41,32 +40,26 @@ export const FirestoreProvider = ({ children }) => {
     setLocalStorage('user', user);
   });
 
-  useEffect(() => {
-    const getData = async () => {
-      if (!user?.uid) return [];
-      const workoutQuery = query(
-        collection(db, `users/${user.uid}/workouts`),
-        orderBy('date', 'desc')
-      );
-      const workoutsSnapshot = await getDocs(workoutQuery);
-      const workoutsList = workoutsSnapshot.docs.map((doc) => {
-        const workoutData = doc.data();
-        return {
-          id: doc.id,
-          ...workoutData,
-          date: dayjs(workoutData.date.toDate()).format('DD/MM/YYYY'),
-        };
-      });
-      return workoutsList;
-    };
-    getData().then((data) => setData(data));
-  }, [db, user]);
+  const getWorkouts = async () => {
+    if (!user?.uid) return [];
+    const workoutQuery = query(
+      collection(db, `users/${user.uid}/workouts`),
+      orderBy('date', 'desc')
+    );
+    const workoutsSnapshot = await getDocs(workoutQuery);
+    const workoutsList = workoutsSnapshot.docs.map((doc) => {
+      const workoutData = doc.data();
+      return {
+        id: doc.id,
+        ...workoutData,
+        date: dayjs(workoutData.date.toDate()).format('YYYY-MM-DD'),
+      };
+    });
+    return workoutsList;
+  };
 
   const getWorkoutById = async (workoutId) => {
     if (!user?.uid) return;
-    const workout = data.find((workout) => workout.id === workoutId);
-    if (workout) return workout;
-
     const workoutSnapshot = await getDoc(
       doc(db, `users/${user.uid}/workouts/${workoutId}`)
     );
@@ -74,7 +67,7 @@ export const FirestoreProvider = ({ children }) => {
     return {
       id: workoutId,
       ...workoutData,
-      date: dayjs(workoutData.date.toDate()).format('DD/MM/YYYY'),
+      date: dayjs(workoutData.date.toDate()).format('YYYY-MM-DD'),
     };
   };
 
@@ -99,7 +92,7 @@ export const FirestoreProvider = ({ children }) => {
   return (
     <FirestoreContext.Provider
       value={{
-        data,
+        getWorkouts,
         getWorkoutById,
         addWorkout,
         deleteWorkout,

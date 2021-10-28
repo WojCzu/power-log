@@ -8,14 +8,14 @@ import {
   StyledTextarea,
 } from './Input.styles';
 
-const Input = ({ type = 'text', ...props }) => {
+const Input = ({ type = 'text', isDisabled, ...props }) => {
   switch (type) {
     case 'text':
     case 'number':
     case 'email':
     case 'password':
       return (
-        <Wrapper>
+        <Wrapper isDisabled={isDisabled}>
           <TextInput type={type} {...props} />
         </Wrapper>
       );

@@ -12,6 +12,7 @@ const ExerciseSet = ({
   onVolumeChange,
   volumeType,
   handleDeleteSet,
+  isDisabled,
 }) => {
   return (
     <Wrapper>
@@ -31,6 +32,7 @@ const ExerciseSet = ({
           min="0"
           max="999.75"
           step="0.25"
+          isDisabled={isDisabled}
         />
         <StyledSpan>kg</StyledSpan>
 
@@ -48,13 +50,16 @@ const ExerciseSet = ({
           min="0"
           max="999"
           step="1"
+          isDisabled={isDisabled}
         />
         <StyledSpan>{volumeType}</StyledSpan>
       </StyledInfo>
 
-      <CloseButton type="button" onClick={handleDeleteSet}>
-        x
-      </CloseButton>
+      {!isDisabled && (
+        <CloseButton type="button" onClick={handleDeleteSet}>
+          x
+        </CloseButton>
+      )}
     </Wrapper>
   );
 };

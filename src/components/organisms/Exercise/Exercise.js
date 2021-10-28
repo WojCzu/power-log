@@ -4,7 +4,7 @@ import { StyledButton } from './Exercise.styles';
 import { useWorkout } from 'hooks/useWorkout';
 import Accordion from 'components/organisms/Accordion/Accordion';
 
-const Exercise = ({ volumeType, sets, id: exerciseId, title }) => {
+const Exercise = ({ volumeType, sets, id: exerciseId, title, isDisabled }) => {
   const { addSet, deleteSet, deleteExercise, handleInputChange } = useWorkout();
 
   const handleDelete = useCallback(
@@ -15,7 +15,7 @@ const Exercise = ({ volumeType, sets, id: exerciseId, title }) => {
   return (
     <Accordion
       title={title}
-      hasDeleteButton
+      hasDeleteButton={!isDisabled}
       handleDelete={handleDelete}
       data-id={exerciseId}
     >
@@ -33,17 +33,20 @@ const Exercise = ({ volumeType, sets, id: exerciseId, title }) => {
               handleInputChange('volume', e.target.value, exerciseId, id)
             }
             volumeType={volumeType}
+            isDisabled={isDisabled}
             handleDeleteSet={() => deleteSet(exerciseId, id)}
           />
         );
       })}
-      <StyledButton
-        isFullWidth
-        type="button"
-        onClick={() => addSet(exerciseId)}
-      >
-        add set
-      </StyledButton>
+      {!isDisabled && (
+        <StyledButton
+          isFullWidth
+          type="button"
+          onClick={() => addSet(exerciseId)}
+        >
+          add set
+        </StyledButton>
+      )}
     </Accordion>
   );
 };
