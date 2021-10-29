@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import ExerciseSet from 'components/molecules/ExerciseSet/ExerciseSet';
 import { StyledButton } from './Exercise.styles';
 import { useWorkout } from 'hooks/useWorkout';
@@ -7,16 +7,11 @@ import Accordion from 'components/organisms/Accordion/Accordion';
 const Exercise = ({ volumeType, sets, id: exerciseId, title, isDisabled }) => {
   const { addSet, deleteSet, deleteExercise, handleInputChange } = useWorkout();
 
-  const handleDelete = useCallback(
-    () => deleteExercise(exerciseId),
-    [deleteExercise, exerciseId]
-  );
-
   return (
     <Accordion
       title={title}
       hasDeleteButton={!isDisabled}
-      handleDelete={handleDelete}
+      handleDelete={() => deleteExercise(exerciseId)}
       data-id={exerciseId}
     >
       {sets.map(({ id, weight, volume }, index) => {

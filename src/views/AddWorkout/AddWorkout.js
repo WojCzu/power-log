@@ -10,6 +10,7 @@ import { Wrapper, ExercisesContainer } from './AddWorkout.styles';
 import { useWorkout } from 'hooks/useWorkout';
 import { useFirestore } from 'hooks/useFirestore';
 import dayjs from 'dayjs';
+import { useEffect } from 'react/cjs/react.development';
 
 const AddWorkout = () => {
   const { isModalOpen, toggleOpenModal } = useModal();
@@ -17,12 +18,7 @@ const AddWorkout = () => {
     isModalOpen: isEndWorkoutOpen,
     toggleOpenModal: toggleOpenEndWorkout,
   } = useModal();
-  const {
-    data: { date, title, exercises, notes },
-    handleInputChange,
-    resetState,
-  } = useWorkout();
-
+  const { data, handleInputChange, resetState, setInitialState } = useWorkout();
   const { addWorkout } = useFirestore();
 
   //It may not be thee greatest but it works
@@ -43,8 +39,8 @@ const AddWorkout = () => {
       await addWorkout({
         date: new Date(date),
         title: `${title || 'Unnamed'}`,
-        exercises,
-        notes,
+        exercises: data.exercises,
+        notes: data.notes,
       });
       toggleOpenEndWorkout();
       resetState();
@@ -53,6 +49,15 @@ const AddWorkout = () => {
     }
   };
 
+  useEffect(() => {
+    setInitialState({ save: true });
+    // eslint-disable-next-line
+  }, []);
+
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+  const { date, title, exercises, notes } = data;
   return (
     <Wrapper
       onSubmit={(e) => {
