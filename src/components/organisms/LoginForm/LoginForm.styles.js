@@ -1,25 +1,8 @@
-import { darkOutline } from 'assets/styles/outline';
 import styled from 'styled-components';
 
 export const StyledP = styled.p`
   margin: 0;
   color: ${({ theme }) => theme.color.black};
-`;
-export const StyledButton = styled.button`
-  padding: 0.4em;
-  border: none;
-  background: none;
-  cursor: pointer;
-  font-size: ${({ theme }) => theme.fontSize.m};
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
-  color: ${({ theme }) => theme.color.purple};
-  text-decoration: none;
-  transition: color 0.2s ease-in-out;
-  &:hover,
-  &:focus {
-    color: ${({ theme }) => theme.color.darkPurple};
-  }
-  ${darkOutline}
 `;
 
 export const Wrapper = styled.form`
@@ -27,4 +10,21 @@ export const Wrapper = styled.form`
   flex-direction: column;
   align-items: center;
   gap: 24px;
+`;
+
+export const Title = styled.h1`
+  margin-bottom: 0;
+`;
+
+export const Card = styled.div`
+  width: clamp(240px, 90vw, 500px);
+  padding: 24px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+
+  background-color: #fff;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.25);
 `;

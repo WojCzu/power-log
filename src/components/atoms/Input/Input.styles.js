@@ -17,7 +17,8 @@ export const Wrapper = styled.div`
   }
 
   &::before {
-    background-color: ${({ theme }) => theme.color.gray};
+    background-color: ${({ isDisabled, theme }) =>
+      isDisabled ? 'transparent' : theme.color.gray};
   }
   &::after {
     background-color: ${({ theme }) => theme.color.darkPurple};

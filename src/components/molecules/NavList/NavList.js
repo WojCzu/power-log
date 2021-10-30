@@ -10,16 +10,11 @@ const NavList = ({ isOpen, closeNav }) => {
   };
   return (
     <StyledList isOpen={isOpen}>
-      <StyledItem isActive={true}>
-        <StyledLink href="/" isActive={true}>
-          Home
-        </StyledLink>
+      <StyledItem>
+        <StyledLink to="/workouts">Workouts</StyledLink>
       </StyledItem>
       <StyledItem>
-        <StyledLink href="/workouts">Workouts</StyledLink>
-      </StyledItem>
-      <StyledItem>
-        <StyledLink href="/calc">Calculators</StyledLink>
+        <StyledLink to="/calc">Calculators</StyledLink>
       </StyledItem>
       <StyledItem>
         <StyledLink as="button" onClick={handleLogout}>

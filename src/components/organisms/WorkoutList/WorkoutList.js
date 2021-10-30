@@ -1,25 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Wrapper,
   WorkoutListItem,
-  WorkoutInfo,
   WorkoutName,
   WorkoutDate,
-  StyledButton,
 } from './WorkoutList.styles';
 import { useFirestore } from 'hooks/useFirestore';
 
-const WorkoutList = () => {
-  const { data } = useFirestore();
+const WorkoutList = ({ handleOpenWorkoutDetails }) => {
+  const { getWorkouts } = useFirestore();
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    getWorkouts().then((workouts) => setData(workouts));
+  }, [getWorkouts]);
+
   return (
     <Wrapper>
       {data.map((workout) => (
-        <WorkoutListItem key={workout.id}>
-          <WorkoutInfo>
-            <WorkoutName>{workout.title}</WorkoutName>
-            <WorkoutDate>{workout.date}</WorkoutDate>
-          </WorkoutInfo>
-          <StyledButton />
+        <WorkoutListItem
+          key={workout.id}
+          tabIndex={0}
+          onClick={() => handleOpenWorkoutDetails(workout.id)}
+        >
+          <WorkoutName>{workout.title}</WorkoutName>
+          <WorkoutDate>{workout.date}</WorkoutDate>
         </WorkoutListItem>
       ))}
     </Wrapper>

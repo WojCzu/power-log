@@ -8,25 +8,25 @@ import {
   StyledTextarea,
 } from './Input.styles';
 
-const Input = ({ type = 'text', ...props }) => {
+const Input = ({ type = 'text', isDisabled, ...props }) => {
   switch (type) {
     case 'text':
     case 'number':
     case 'email':
     case 'password':
       return (
-        <Wrapper>
-          <TextInput type={type} {...props} />
+        <Wrapper isDisabled={isDisabled}>
+          <TextInput type={type} disabled={isDisabled} {...props} />
         </Wrapper>
       );
     case 'date':
-      return <DateInput type={type} {...props} />;
+      return <DateInput type={type} disabled={isDisabled} {...props} />;
     case 'radio':
-      return <RadioInput type={type} {...props} />;
+      return <RadioInput type={type} disabled={isDisabled} {...props} />;
     case 'textarea':
-      return <StyledTextarea {...props} />;
+      return <StyledTextarea disabled={isDisabled} {...props} />;
     default:
-      <input type={type} {...props} />;
+      <input type={type} disabled={isDisabled} {...props} />;
   }
 };
 

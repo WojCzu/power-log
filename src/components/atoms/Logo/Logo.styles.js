@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { lightOutline } from 'assets/styles/outline';
+import { Link } from 'react-router-dom';
 
-export const Wrapper = styled.a`
+export const Wrapper = styled(Link)`
   display: flex;
   align-items: center;
   text-decoration: none;

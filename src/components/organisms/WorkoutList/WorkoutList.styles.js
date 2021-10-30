@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Arrow from 'assets/icons/arrow.svg';
+import { darkOutline } from 'assets/styles/outline';
 
 export const Wrapper = styled.ul`
   margin: 0;
@@ -8,13 +9,14 @@ export const Wrapper = styled.ul`
 
 export const WorkoutListItem = styled.li`
   list-style: none;
-  display: grid;
-  grid-template-columns: 1fr 45px;
-  grid-gap: 8px;
+  display: flex;
+  flex-direction: column;
 
-  padding: 8px 0;
+  padding: 0.3em;
 
   border-bottom: 1px solid ${({ theme }) => theme.color.lightGray};
+  cursor: pointer;
+  ${darkOutline}
 `;
 
 export const WorkoutName = styled.span`
@@ -27,11 +29,6 @@ export const WorkoutDate = styled.span`
   color: ${({ theme }) => theme.color.black};
   font-size: ${({ theme }) => theme.fontSize.s};
   font-weight: ${({ theme }) => theme.fontWeight.light};
-`;
-
-export const WorkoutInfo = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
 
 export const StyledButton = styled.button`

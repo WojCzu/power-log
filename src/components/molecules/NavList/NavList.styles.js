@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import Placeholder from 'assets/icons/arrow.svg';
+import { NavLink } from 'react-router-dom';
 
 export const StyledList = styled.ul`
   margin: 0;
@@ -37,8 +38,8 @@ export const StyledList = styled.ul`
 export const StyledItem = styled.li`
   position: relative;
 
-  ${({ isActive }) =>
-    isActive &&
+  ${({ $isActive }) =>
+    $isActive &&
     css`
       &::before {
         content: '';
@@ -58,7 +59,7 @@ export const StyledItem = styled.li`
     `}
 `;
 
-export const StyledLink = styled.a`
+export const StyledLink = styled(NavLink)`
   width: 100%;
   display: flex;
   align-items: center;
@@ -66,11 +67,9 @@ export const StyledLink = styled.a`
   position: relative;
   z-index: 9;
 
-  color: ${({ isActive, theme }) =>
-    isActive ? theme.color.darkPurple : theme.color.lightGray};
+  color: ${({ theme }) => theme.color.lightGray};
   font-size: ${({ theme }) => theme.fontSize.m};
-  font-weight: ${({ isActive, theme }) =>
-    isActive ? theme.fontWeight.bold : theme.fontWeight.light};
+  font-weight: ${({ theme }) => theme.fontWeight.light};
   text-transform: lowercase;
   text-decoration: none;
 
@@ -95,5 +94,9 @@ export const StyledLink = styled.a`
     background: url(${Placeholder}) no-repeat;
     background-size: contain;
     background-position: center;
+  }
+
+  &.active {
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
   }
 `;

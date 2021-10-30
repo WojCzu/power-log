@@ -4,7 +4,7 @@ import { Wrapper, LogoImage, LogoText } from './Logo.styles';
 
 const Logo = () => {
   return (
-    <Wrapper href="/">
+    <Wrapper to="/">
       <LogoImage src={logo} alt="logo" />
       <LogoText>
         <span>power</span>log
