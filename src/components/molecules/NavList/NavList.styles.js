@@ -1,16 +1,15 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import Placeholder from 'assets/icons/arrow.svg';
 import { NavLink } from 'react-router-dom';
 
 export const StyledList = styled.ul`
   margin: 0;
-  padding: 54px 0;
+  padding: 54px 0 24px;
 
   position: relative;
 
   list-style: none;
-  border-bottom-left-radius: 36px;
-  background-color: ${({ theme }) => theme.color.purple};
+  background-color: ${({ theme }) => theme.color.darkGray};
 
   transition: transform 0.3s ease-in-out,
     visibility 0s ${({ isOpen }) => (isOpen ? '0s' : '.3s')} linear;
@@ -19,44 +18,7 @@ export const StyledList = styled.ul`
   transform: ${({ isOpen }) =>
     isOpen ? `translateY(-36px)` : 'translateY(-100%)'};
 
-  &::after {
-    content: '';
-    display: block;
-    width: 75px;
-    height: 3px;
-
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-
-    transform: translate(-50%, -10px);
-    border-radius: 3px;
-    background-color: ${({ theme }) => theme.color.lightGray};
-  }
-`;
-
-export const StyledItem = styled.li`
-  position: relative;
-
-  ${({ $isActive }) =>
-    $isActive &&
-    css`
-      &::before {
-        content: '';
-        display: block;
-        width: 90vw;
-        height: 40px;
-
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 8;
-
-        background-color: #fff;
-        border-top-right-radius: 44px;
-        border-bottom-right-radius: 44px;
-      }
-    `}
+  border-bottom: 2px solid ${({ theme }) => theme.color.lightGray};
 `;
 
 export const StyledLink = styled(NavLink)`
@@ -67,9 +29,9 @@ export const StyledLink = styled(NavLink)`
   position: relative;
   z-index: 9;
 
-  color: ${({ theme }) => theme.color.lightGray};
+  color: ${({ theme }) => theme.color.white};
   font-size: ${({ theme }) => theme.fontSize.m};
-  font-weight: ${({ theme }) => theme.fontWeight.light};
+  font-weight: ${({ theme }) => theme.fontWeight.normal};
   text-transform: lowercase;
   text-decoration: none;
 
@@ -80,8 +42,7 @@ export const StyledLink = styled(NavLink)`
 
   &:hover,
   &:focus {
-    color: ${({ theme }) => theme.color.lightGray};
-    background-color: ${({ theme }) => theme.color.darkPurple};
+    background-color: ${({ theme }) => theme.color.red};
   }
 
   &::before {

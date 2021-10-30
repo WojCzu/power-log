@@ -20,7 +20,7 @@ export const LogoText = styled.p`
 
   font-size: ${({ theme }) => theme.fontSize.l};
   font-weight: ${({ theme }) => theme.fontWeight.light};
-  color: ${({ theme }) => theme.color.lightGray};
+  color: ${({ theme }) => theme.color.white};
 
   span {
     font-weight: ${({ theme }) => theme.fontWeight.bold};

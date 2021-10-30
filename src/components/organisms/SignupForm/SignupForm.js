@@ -76,7 +76,7 @@ const SignupForm = () => {
           required
         />
         {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-        <Button isPrimary disabled={isButtonDisabled}>
+        <Button $isPrimary disabled={isButtonDisabled}>
           Sign Up!
         </Button>
       </Wrapper>

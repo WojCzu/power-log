@@ -1,26 +1,27 @@
 import Arrow from 'assets/icons/arrow.svg';
 import styled from 'styled-components';
-import { darkOutline } from 'assets/styles/outline';
+import { lightOutline } from 'assets/styles/outline';
 import { CloseButton } from 'components/atoms/CloseButton/CloseButton';
 
 export const StyledSummary = styled.summary`
-  padding: 0.4em;
+  padding: 0.8em;
 
   position: relative;
 
   list-style: none;
   color: ${({ theme }) => theme.color.white};
-  background-color: ${({ theme }) => theme.color.purple};
   font-size: ${({ theme, isSmall }) =>
     isSmall ? theme.fontSize.m : theme.fontSize.l};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
   text-align: center;
-  border-bottom-right-radius: 0.8em;
   cursor: pointer;
-  ${darkOutline}
+  ${lightOutline}
+
+  border-bottom: 2px solid ${({ theme }) => theme.color.darkGray};
 
   &::before {
     content: '';
-    left: 0.5em;
+    left: 0.8em;
     top: 50%;
     height: 1em;
     width: 1em;
@@ -34,7 +35,7 @@ export const StyledSummary = styled.summary`
   }
 
   ${CloseButton} {
-    right: 0.5em;
+    right: 0.8em;
     top: 50%;
     transform: translateY(-50%);
 
@@ -43,9 +44,8 @@ export const StyledSummary = styled.summary`
 `;
 
 export const Wrapper = styled.details`
-  background-color: ${({ theme }) => theme.color.white};
-  border-radius: 0 0 16px 16px;
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.25);
+  background-color: ${({ theme }) => theme.color.black};
+  border-radius: 8px;
 
   &[open] ${StyledSummary}::before {
     transform: translateY(-50%) rotate(-90deg);
@@ -53,5 +53,5 @@ export const Wrapper = styled.details`
 `;
 
 export const Content = styled.div`
-  padding: 10px;
+  padding: 1.2em;
 `;

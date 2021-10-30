@@ -18,14 +18,13 @@ export const Wrapper = styled.div`
 
 export const Title = styled.h2`
   font-size: ${({ theme }) => theme.fontSize.l};
-  color: ${({ theme }) => theme.color.black};
+  color: ${({ theme }) => theme.color.white};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
 
 export const WorkoutHistory = styled.div`
   padding: 0 15px;
   overflow: auto;
-  border-radius: 16px;
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.25);
-  background-color: ${({ theme }) => theme.color.white};
+  border-radius: 8px;
+  background-color: ${({ theme }) => theme.color.black};
 `;

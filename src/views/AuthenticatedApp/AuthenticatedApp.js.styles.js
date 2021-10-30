@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
   padding-top: 64px;
   height: 100vh;
   overflow-y: auto;
-  background-color: ${({ theme }) => theme.color.lightGray};
+  background-color: ${({ theme }) => theme.color.darkGray};
 
   ${scrollbar} {
     ::-webkit-scrollbar-track {

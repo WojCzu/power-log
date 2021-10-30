@@ -10,6 +10,6 @@ export const Wrapper = styled.div`
   justify-content: space-between;
   align-items: flex-start;
 
-  background-color: ${({ theme }) => theme.color.purple};
-  border-bottom-left-radius: 36px;
+  background-color: ${({ theme }) => theme.color.darkGray};
+  border-bottom: 2px solid ${({ theme }) => theme.color.lightGray};
 `;

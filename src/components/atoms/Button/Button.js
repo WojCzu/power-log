@@ -1,31 +1,31 @@
 import styled from 'styled-components';
-import { darkOutline } from 'assets/styles/outline';
+import { lightOutline } from 'assets/styles/outline';
 
 export const Button = styled.button`
-  padding: 0.5em 1.5em;
+  padding: 0.8em 3em;
   width: ${({ $isFullWidth }) => ($isFullWidth ? '100%' : 'auto')};
+
   font-size: ${({ theme }) => theme.fontSize.m};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
 
   background-color: ${({ $isPrimary, theme }) =>
-    $isPrimary ? theme.color.purple : 'transparent'};
-  color: ${({ $isPrimary, theme }) =>
-    $isPrimary ? theme.color.lightGray : theme.color.purple};
+    $isPrimary ? theme.color.red : theme.color.black};
+  color: ${({ theme }) => theme.color.white};
   border: 1px solid;
   border-color: ${({ $isPrimary, theme }) =>
-    $isPrimary ? 'transparent' : theme.color.purple};
+    $isPrimary ? theme.color.red : theme.color.gray};
   border-radius: 8px;
 
   text-decoration: none;
   text-align: center;
   cursor: pointer;
 
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 
   &:hover,
   &:focus {
-    background-color: ${({ theme }) => theme.color.darkPurple};
-    border-color: ${({ theme }) => theme.color.darkPurple};
-    color: ${({ theme }) => theme.color.lightGray};
+    background-color: ${({ theme }) => theme.color.lightRed};
+    border-color: ${({ theme }) => theme.color.lightRed};
   }
 
   &:disabled {
@@ -33,5 +33,5 @@ export const Button = styled.button`
     border-color: ${({ theme }) => theme.color.gray};
   }
 
-  ${darkOutline}
+  ${lightOutline}
 `;

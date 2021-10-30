@@ -42,7 +42,7 @@ const LoginForm = () => {
           type="password"
           required
         />
-        <Button isPrimary>Log In</Button>
+        <Button $isPrimary>Log In</Button>
         <StyledP>
           Not a member?
           <StyledLink as={Link} to="/signup">

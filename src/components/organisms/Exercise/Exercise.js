@@ -35,7 +35,7 @@ const Exercise = ({ volumeType, sets, id: exerciseId, title, isDisabled }) => {
       })}
       {!isDisabled && (
         <StyledButton
-          isFullWidth
+          $isFullWidth
           type="button"
           onClick={() => addSet(exerciseId)}
         >

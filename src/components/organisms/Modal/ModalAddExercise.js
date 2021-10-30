@@ -1,4 +1,5 @@
 import { Button } from 'components/atoms/Button/Button';
+import Label from 'components/atoms/Label/Label';
 import { SrOnly } from 'components/atoms/SrOnly/SrOnly';
 import FormField from 'components/molecules/FormField/FormField';
 import { useWorkout } from 'hooks/useWorkout';
@@ -38,7 +39,7 @@ const ModalAddExercise = ({ closeModal, handleAddExercise, ...props }) => {
             required
           />
           <div onChange={(e) => setRepetitionsType(e.target.value)}>
-            <p>repetitions:</p>
+            <Label as="p">repetitions:</Label>
 
             <FormField
               label="reps"
