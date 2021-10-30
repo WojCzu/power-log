@@ -10,11 +10,6 @@ const NavList = ({ isOpen, closeNav }) => {
   };
   return (
     <StyledList isOpen={isOpen}>
-      <StyledItem $isActive={true}>
-        <StyledLink to="/" $isActive={true}>
-          Home
-        </StyledLink>
-      </StyledItem>
       <StyledItem>
         <StyledLink to="/workouts">Workouts</StyledLink>
       </StyledItem>

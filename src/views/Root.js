@@ -5,7 +5,7 @@ import { theme } from 'assets/styles/theme';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { useFirestore } from 'hooks/useFirestore';
 import { WorkoutProvider } from 'hooks/useWorkout';
-import UnuthenticatedApp from './UnuthenticatedApp/UnuthenticatedApp';
+import UnauthenticatedApp from './UnauthenticatedApp/UnauthenticatedApp';
 import AuthenticatedApp from './AuthenticatedApp/AuthenticatedApp';
 
 const Root = () => {
@@ -20,7 +20,7 @@ const Root = () => {
             <AuthenticatedApp />
           </WorkoutProvider>
         ) : (
-          <UnuthenticatedApp />
+          <UnauthenticatedApp />
         )}
       </ThemeProvider>
     </Router>

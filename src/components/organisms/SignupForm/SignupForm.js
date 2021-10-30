@@ -3,8 +3,9 @@ import ErrorMessage from 'components/atoms/ErrorMessage/ErrorMessage';
 import FormField from 'components/molecules/FormField/FormField';
 import { useFirestore } from 'hooks/useFirestore';
 import React, { useState } from 'react';
-import { Wrapper } from './SignupForm.styles';
+import { Wrapper, Card, Title } from './SignupForm.styles';
 import { createUserWithEmailAndPassword as createUser } from 'firebase/auth';
+import LoginNav from 'components/molecules/LoginNav/LoginNav';
 
 const SignupForm = () => {
   const [login, setLogin] = useState('');
@@ -40,42 +41,46 @@ const SignupForm = () => {
   };
 
   return (
-    <Wrapper onSubmit={handleSubmit}>
-      <FormField
-        label="email"
-        id="email"
-        name="email"
-        value={login}
-        onChange={(e) => setLogin(e.target.value)}
-        isColumn
-        type="email"
-        required
-      />
-      <FormField
-        label="password"
-        id="password"
-        name="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        isColumn
-        type="password"
-        required
-      />
-      <FormField
-        label="confirm password"
-        id="confirm-password"
-        name="confirm-password"
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        isColumn
-        type="password"
-        required
-      />
-      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-      <Button isPrimary disabled={isButtonDisabled}>
-        Sign Up!
-      </Button>
-    </Wrapper>
+    <Card>
+      <Title>Signup Form</Title>
+      <LoginNav />
+      <Wrapper onSubmit={handleSubmit}>
+        <FormField
+          label="email"
+          id="email"
+          name="email"
+          value={login}
+          onChange={(e) => setLogin(e.target.value)}
+          isColumn
+          type="email"
+          required
+        />
+        <FormField
+          label="password"
+          id="password"
+          name="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          isColumn
+          type="password"
+          required
+        />
+        <FormField
+          label="confirm password"
+          id="confirm-password"
+          name="confirm-password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          isColumn
+          type="password"
+          required
+        />
+        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+        <Button isPrimary disabled={isButtonDisabled}>
+          Sign Up!
+        </Button>
+      </Wrapper>
+    </Card>
   );
 };
 
