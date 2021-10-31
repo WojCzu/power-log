@@ -1,6 +1,6 @@
 import React from 'react';
 import { Wrapper, StyledSummary, Content } from './Accordion.styles';
-import { CloseButton } from 'components/atoms/CloseButton/CloseButton';
+import IconButton from 'components/atoms/IconButton/IconButton';
 
 const Accordion = ({
   title,
@@ -14,9 +14,9 @@ const Accordion = ({
       <StyledSummary>
         {title}
         {hasDeleteButton && (
-          <CloseButton type="button" onClick={handleDelete}>
-            X
-          </CloseButton>
+          <IconButton icon="cross" type="button" onClick={handleDelete}>
+            delete
+          </IconButton>
         )}
       </StyledSummary>
       <Content>{children}</Content>

@@ -16,8 +16,8 @@ export const Wrapper = styled.div`
   }
 `;
 
-export const Title = styled.h2`
-  font-size: ${({ theme }) => theme.fontSize.l};
+export const Title = styled.h1`
+  font-size: ${({ theme }) => theme.fontSize.xl};
   color: ${({ theme }) => theme.color.white};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;

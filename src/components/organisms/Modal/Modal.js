@@ -17,7 +17,9 @@ const Modal = ({ children, modalTitle, closeModal, ...props }) => {
     >
       <ModalHeading>
         <StyledTitle id="modal__heading">{modalTitle}</StyledTitle>
-        <StyledButton onClick={closeModal}>X</StyledButton>
+        <StyledButton icon="cross" onClick={closeModal}>
+          close modal
+        </StyledButton>
       </ModalHeading>
       {children}
     </StyledModal>

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import ReactModal from 'react-modal';
-import { CloseButton } from 'components/atoms/CloseButton/CloseButton';
+import IconButton from 'components/atoms/IconButton/IconButton';
 
 export const StyledModal = styled(ReactModal)`
   position: absolute;
@@ -16,6 +16,7 @@ export const StyledModal = styled(ReactModal)`
 export const ModalHeading = styled.div`
   color: ${({ theme }) => theme.color.white};
   font-size: ${({ theme }) => theme.fontSize.l};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
   padding: 1em;
   border-bottom: 2px solid ${({ theme }) => theme.color.lightGray};
 
@@ -27,7 +28,7 @@ export const StyledTitle = styled.span`
   margin: 0 auto;
 `;
 
-export const StyledButton = styled(CloseButton)`
+export const StyledButton = styled(IconButton)`
   color: ${({ theme }) => theme.color.white};
   place-self: flex-end;
 `;

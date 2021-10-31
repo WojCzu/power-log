@@ -1,7 +1,6 @@
 import Arrow from 'assets/icons/arrow.svg';
 import styled from 'styled-components';
 import { lightOutline } from 'assets/styles/outline';
-import { CloseButton } from 'components/atoms/CloseButton/CloseButton';
 
 export const StyledSummary = styled.summary`
   padding: 0.8em;
@@ -34,7 +33,7 @@ export const StyledSummary = styled.summary`
     transition: transform 0.2s;
   }
 
-  ${CloseButton} {
+  button {
     right: 0.8em;
     top: 50%;
     transform: translateY(-50%);
