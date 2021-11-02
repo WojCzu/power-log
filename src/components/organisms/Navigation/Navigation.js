@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { handleClickOutsideComponent } from 'helpers/handleClickOutsideComponent';
 import NavBar from 'components/molecules/NavBar/NavBar';
-import { StyledNav } from './Navigation.styles';
 import NavList from 'components/molecules/NavList/NavList';
 
 const Navigation = () => {
@@ -49,14 +48,14 @@ const Navigation = () => {
   }, [isOpen, setIsOpen]);
 
   return (
-    <StyledNav ref={navRef}>
+    <nav ref={navRef}>
       <NavBar
         handleClick={toggleIsOpen}
         isOpen={isOpen}
         hamburgerRef={hamburgerRef}
       />
       <NavList isOpen={isOpen} closeNav={() => setIsOpen(false)} />
-    </StyledNav>
+    </nav>
   );
 };
 

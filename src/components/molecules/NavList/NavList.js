@@ -1,6 +1,6 @@
 import { useFirestore } from 'hooks/useFirestore';
 import React from 'react';
-import { StyledItem, StyledList, StyledLink } from './NavList.styles';
+import { StyledList, StyledLink } from './NavList.styles';
 
 const NavList = ({ isOpen, closeNav }) => {
   const { auth } = useFirestore();
@@ -10,17 +10,17 @@ const NavList = ({ isOpen, closeNav }) => {
   };
   return (
     <StyledList isOpen={isOpen}>
-      <StyledItem>
+      <li>
         <StyledLink to="/workouts">Workouts</StyledLink>
-      </StyledItem>
-      <StyledItem>
+      </li>
+      <li>
         <StyledLink to="/calc">Calculators</StyledLink>
-      </StyledItem>
-      <StyledItem>
+      </li>
+      <li>
         <StyledLink as="button" onClick={handleLogout}>
           Logout
         </StyledLink>
-      </StyledItem>
+      </li>
     </StyledList>
   );
 };

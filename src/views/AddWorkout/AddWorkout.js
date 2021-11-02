@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'components/atoms/Button/Button';
 import Accordion from 'components/organisms/Accordion/Accordion';
 import Exercise from 'components/organisms/Exercise/Exercise';
 import { useModal } from 'hooks/useModal';
-import ModalConfirm from 'components/organisms/Modal/ModalConfirm';
-import ModalAddExercise from 'components/organisms/Modal/ModalAddExercise';
 import FormField from 'components/molecules/FormField/FormField';
 import { Wrapper, ExercisesContainer } from './AddWorkout.styles';
 import { useWorkout } from 'hooks/useWorkout';
 import { useFirestore } from 'hooks/useFirestore';
 import dayjs from 'dayjs';
-import { useEffect } from 'react/cjs/react.development';
+import AddExerciseForm from 'components/organisms/AddExerciseForm/AddExerciseForm';
+import ConfirmAction from 'components/organisms/ConfirmAction/ConfirmAction';
 
 const AddWorkout = () => {
   const { isModalOpen, toggleOpenModal } = useModal();
@@ -108,7 +107,7 @@ const AddWorkout = () => {
           add exercise
         </Button>
         {isModalOpen && (
-          <ModalAddExercise
+          <AddExerciseForm
             isOpen={isModalOpen}
             closeModal={toggleOpenModal}
             modalTitle="Add new exercise"
@@ -133,14 +132,14 @@ const AddWorkout = () => {
         end workout
       </Button>
       {isEndWorkoutOpen && (
-        <ModalConfirm
+        <ConfirmAction
           isOpen={isEndWorkoutOpen}
           closeModal={toggleOpenEndWorkout}
           modalTitle="End workout?"
           handleConfirm={handleEndWorkout}
         >
           Are you sure, you want to end your workout?
-        </ModalConfirm>
+        </ConfirmAction>
       )}
     </Wrapper>
   );

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { darkOutline } from 'assets/styles/outline';
+import { lightOutline } from 'assets/styles/outline';
 
 export const StyledLink = styled.a`
   padding: 0.4em;
@@ -8,16 +8,17 @@ export const StyledLink = styled.a`
   cursor: pointer;
   font-size: ${({ theme }) => theme.fontSize.m};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
-  color: ${({ theme }) => theme.color.purple};
+  color: ${({ theme }) => theme.color.white};
   text-decoration: none;
   transition: color 0.2s ease-in-out;
   &:hover,
   &:focus {
-    color: ${({ theme }) => theme.color.darkPurple};
+    color: ${({ theme }) => theme.color.lightRed};
   }
-  ${darkOutline}
+  ${lightOutline}
 
   &.active {
     font-weight: ${({ theme }) => theme.fontWeight.bold};
+    text-decoration: underline;
   }
 `;

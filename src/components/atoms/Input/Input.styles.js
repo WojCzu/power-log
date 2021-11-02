@@ -1,4 +1,4 @@
-import { darkOutline } from 'assets/styles/outline';
+import { lightOutline } from 'assets/styles/outline';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
     left: 0;
     right: 0;
     height: 4px;
-    border-radius: 0 4px 0 4px;
+    border-radius: 4px;
   }
 
   &::before {
@@ -21,7 +21,7 @@ export const Wrapper = styled.div`
       isDisabled ? 'transparent' : theme.color.gray};
   }
   &::after {
-    background-color: ${({ theme }) => theme.color.darkPurple};
+    background-color: ${({ theme }) => theme.color.lightGray};
     transform-origin: center;
     transform: scaleX(0);
     transition: transform ease-in-out 0.1s;
@@ -47,10 +47,10 @@ export const TextInput = styled.input`
 
   font-weight: ${({ theme }) => theme.fontWeight.normal};
 
-  color: ${({ theme }) => theme.color.black};
+  color: ${({ theme }) => theme.color.white};
 
   &::placeholder {
-    color: ${({ theme }) => theme.color.gray};
+    color: ${({ theme }) => theme.color.lightGray};
   }
 
   &[type='number'] {
@@ -68,25 +68,29 @@ export const DateInput = styled.input`
   font-size: ${({ theme }) => theme.fontSize.m};
   background: none;
   border: none;
-  color: ${({ theme }) => theme.color.black};
+  color: ${({ theme }) => theme.color.white};
 
   &::-webkit-calendar-picker-indicator {
     margin: 0;
+    filter: invert(1);
   }
-  ${darkOutline}
+  ${lightOutline}
 `;
 
 export const RadioInput = styled.input`
-  accent-color: ${({ theme }) => theme.color.purple};
+  accent-color: ${({ theme }) => theme.color.red};
 `;
 
 export const StyledTextarea = styled.textarea`
   width: 100%;
   resize: vertical;
 
-  color: ${({ theme }) => theme.color.black};
+  color: ${({ theme }) => theme.color.white};
   font-size: ${({ theme }) => theme.fontSize.m};
-  background-color: ${({ theme }) => theme.color.white};
+  background-color: transparent;
   border: none;
-  ${darkOutline}
+  &::placeholder {
+    color: ${({ theme }) => theme.color.lightGray};
+  }
+  ${lightOutline}
 `;

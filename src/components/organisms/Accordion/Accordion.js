@@ -1,6 +1,8 @@
 import React from 'react';
 import { Wrapper, StyledSummary, Content } from './Accordion.styles';
-import { CloseButton } from 'components/atoms/CloseButton/CloseButton';
+import IconButton from 'components/atoms/IconButton/IconButton';
+import { useModal } from 'hooks/useModal';
+import ConfirmAction from '../ConfirmAction/ConfirmAction';
 
 const Accordion = ({
   title,
@@ -9,17 +11,28 @@ const Accordion = ({
   handleDelete,
   ...props
 }) => {
+  const { isModalOpen, toggleOpenModal } = useModal();
   return (
     <Wrapper open {...props}>
       <StyledSummary>
-        {title}{' '}
+        {title}
         {hasDeleteButton && (
-          <CloseButton type="button" isWhite onClick={handleDelete}>
-            X
-          </CloseButton>
+          <IconButton icon="cross" type="button" onClick={toggleOpenModal}>
+            delete
+          </IconButton>
         )}
       </StyledSummary>
       <Content>{children}</Content>
+      {isModalOpen && (
+        <ConfirmAction
+          isOpen={isModalOpen}
+          closeModal={toggleOpenModal}
+          modalTitle="Delete exercise"
+          handleConfirm={handleDelete}
+        >
+          {`Are you sure, you want to delete ${title} exercise?`}
+        </ConfirmAction>
+      )}
     </Wrapper>
   );
 };

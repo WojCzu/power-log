@@ -1,8 +1,8 @@
 import React from 'react';
 import { Wrapper, StyledSpan, StyledInfo } from './ExerciseSet.styles';
-import { CloseButton } from 'components/atoms/CloseButton/CloseButton';
 import Label from 'components/atoms/Label/Label';
 import FormField from '../FormField/FormField';
+import IconButton from 'components/atoms/IconButton/IconButton';
 
 const ExerciseSet = ({
   setNumber,
@@ -56,9 +56,9 @@ const ExerciseSet = ({
       </StyledInfo>
 
       {!isDisabled && (
-        <CloseButton type="button" onClick={handleDeleteSet}>
-          x
-        </CloseButton>
+        <IconButton icon="cross" type="button" onClick={handleDeleteSet}>
+          delete set
+        </IconButton>
       )}
     </Wrapper>
   );

@@ -4,9 +4,8 @@ const Label = styled.label`
   font-size: ${({ isBig, theme }) =>
     isBig ? theme.fontSize.m : theme.fontSize.s};
 
-  font-weight: ${({ isBig, theme }) =>
-    isBig ? theme.fontWeight.normal : theme.fontWeight.light};
-  color: ${({ theme }) => theme.color.black};
+  font-weight: ${({ theme }) => theme.fontWeight.normal};
+  color: ${({ theme }) => theme.color.white};
 `;
 
 export default Label;

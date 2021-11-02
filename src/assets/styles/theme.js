@@ -1,11 +1,12 @@
 export const theme = {
   color: {
-    black: '#2A3950',
-    white: '#FDFBFB',
-    lightGray: '#EBEDEE',
-    gray: '#d7d7d7',
-    purple: '#BB3A67',
-    darkPurple: '#823567',
+    black: '#232323',
+    white: '#D0D1D4',
+    gray: '#45474F',
+    lightGray: '#AFB2BC',
+    darkGray: '#2E3034',
+    red: '#A91B1B',
+    lightRed: '#994444',
   },
 
   fontSize: {
