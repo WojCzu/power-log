@@ -11,10 +11,9 @@ import WorkoutDetails from 'components/organisms/WorkoutDetails/WorkoutDetails';
 const Workouts = () => {
   const { isModalOpen, toggleOpenModal } = useModal();
   const [currentWorkout, setCurrentWorkout] = useState(null);
-  const { getWorkoutById, deleteWorkout } = useFirestore();
+  const { deleteWorkout } = useFirestore();
 
-  const handleOpenWorkoutDetails = async (id) => {
-    const workout = await getWorkoutById(id);
+  const handleOpenWorkoutDetails = (workout) => {
     setCurrentWorkout(workout);
     toggleOpenModal();
   };

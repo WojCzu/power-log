@@ -21,7 +21,7 @@ const WorkoutList = ({ handleOpenWorkoutDetails }) => {
         <WorkoutListItem
           key={workout.id}
           tabIndex={0}
-          onClick={() => handleOpenWorkoutDetails(workout.id)}
+          onClick={() => handleOpenWorkoutDetails(workout)}
         >
           <WorkoutName>{workout.title}</WorkoutName>
           <WorkoutDate>{workout.date}</WorkoutDate>

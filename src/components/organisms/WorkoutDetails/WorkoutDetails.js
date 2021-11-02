@@ -29,9 +29,9 @@ const WorkoutDetails = ({
     // eslint-disable-next-line
   }, []);
 
-  const handleUpdateWorkout = () => {
+  const handleUpdateWorkout = (currentWorkout) => {
     updateWorkout(
-      { date: new Date(currentWorkout.date), ...currentWorkout },
+      { ...currentWorkout, date: new Date(currentWorkout.date) },
       currentWorkout.id
     ).then(() => setIsEditDisabled(true));
   };
@@ -39,7 +39,7 @@ const WorkoutDetails = ({
   if (!data) {
     return <div>Loading...</div>;
   }
-  const { id, date, exercises, notes } = data;
+  const { id, date, exercises, notes, title } = data;
 
   return (
     <Modal
@@ -116,7 +116,7 @@ const WorkoutDetails = ({
             <Button
               $isPrimary
               onClick={() =>
-                handleUpdateWorkout({ id, date, exercises, notes })
+                handleUpdateWorkout({ id, date, exercises, notes, title })
               }
             >
               Save edit
