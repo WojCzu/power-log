@@ -1,32 +1,56 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Wrapper,
   WorkoutListItem,
   WorkoutName,
   WorkoutDate,
 } from './WorkoutList.styles';
-import { useFirestore } from 'hooks/useFirestore';
 
-const WorkoutList = ({ handleOpenWorkoutDetails }) => {
-  const { getWorkouts } = useFirestore();
-  const [data, setData] = useState([]);
+const WorkoutList = ({ data, getData, handleOpenWorkoutDetails }) => {
+  const observingItemRef = useRef(null);
+  const observer = useRef(null);
 
   useEffect(() => {
-    getWorkouts().then((workouts) => setData(workouts));
-  }, [getWorkouts]);
+    observer.current = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          getData();
+        }
+      },
+      {
+        root: document,
+        threshold: 0.5,
+      }
+    );
+
+    if (observingItemRef.current) {
+      observer.current.observe(observingItemRef.current);
+    }
+
+    return () => {
+      observer.current.disconnect();
+    };
+  }, [getData]);
 
   return (
     <Wrapper>
-      {data.map((workout) => (
-        <WorkoutListItem
-          key={workout.id}
-          tabIndex={0}
-          onClick={() => handleOpenWorkoutDetails(workout)}
-        >
-          <WorkoutName>{workout.title}</WorkoutName>
-          <WorkoutDate>{workout.date}</WorkoutDate>
-        </WorkoutListItem>
-      ))}
+      {data.map((workout, index) => {
+        const itemProps = {
+          key: workout.id,
+          tabIndex: 0,
+          onClick: () => handleOpenWorkoutDetails(workout),
+        };
+
+        if (index === data.length - 2) {
+          itemProps['ref'] = observingItemRef;
+        }
+        return (
+          <WorkoutListItem {...itemProps}>
+            <WorkoutName>{workout.title}</WorkoutName>
+            <WorkoutDate>{workout.date}</WorkoutDate>
+          </WorkoutListItem>
+        );
+      })}
     </Wrapper>
   );
 };

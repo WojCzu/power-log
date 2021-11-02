@@ -10,6 +10,8 @@ import {
   deleteDoc,
   query,
   orderBy,
+  limit,
+  startAfter,
 } from 'firebase/firestore/lite';
 import { getAuth } from 'firebase/auth';
 import dayjs from 'dayjs';
@@ -34,19 +36,34 @@ export const FirestoreProvider = ({ children }) => {
   const auth = getAuth();
 
   const [user, setUser] = useState(getLocalStorage('user'));
+  const [lastVisibleDocument, setLastVisibleDocument] = useState(null);
 
   onAuthStateChanged(auth, (user) => {
     setUser(user);
     setLocalStorage('user', user);
   });
+  const getWorkouts = async (firstRun) => {
+    if (!user?.uid || typeof lastVisibleDocument == 'undefined') return [];
+    let workoutQuery;
+    if (firstRun) {
+      workoutQuery = query(
+        collection(db, `users/${user.uid}/workouts`),
+        orderBy('date', 'desc'),
+        limit(25)
+      );
+    } else {
+      workoutQuery = query(
+        collection(db, `users/${user.uid}/workouts`),
+        orderBy('date', 'desc'),
+        startAfter(lastVisibleDocument),
+        limit(25)
+      );
+    }
 
-  const getWorkouts = async () => {
-    if (!user?.uid) return [];
-    const workoutQuery = query(
-      collection(db, `users/${user.uid}/workouts`),
-      orderBy('date', 'desc')
-    );
     const workoutsSnapshot = await getDocs(workoutQuery);
+    const lastVisibleWorkout =
+      workoutsSnapshot.docs[workoutsSnapshot.docs.length - 1];
+    setLastVisibleDocument(lastVisibleWorkout);
     const workoutsList = workoutsSnapshot.docs.map((doc) => {
       const workoutData = doc.data();
       return {
@@ -57,7 +74,6 @@ export const FirestoreProvider = ({ children }) => {
     });
     return workoutsList;
   };
-
   const getWorkoutById = async (workoutId) => {
     if (!user?.uid) return;
     const workoutSnapshot = await getDoc(

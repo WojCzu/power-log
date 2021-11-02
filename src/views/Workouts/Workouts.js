@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from 'components/atoms/Button/Button';
 import { Link } from 'react-router-dom';
 import WorkoutList from 'components/organisms/WorkoutList/WorkoutList';
@@ -10,8 +10,9 @@ import WorkoutDetails from 'components/organisms/WorkoutDetails/WorkoutDetails';
 
 const Workouts = () => {
   const { isModalOpen, toggleOpenModal } = useModal();
+  const { getWorkouts, deleteWorkout } = useFirestore();
   const [currentWorkout, setCurrentWorkout] = useState(null);
-  const { deleteWorkout } = useFirestore();
+  const [data, setData] = useState([]);
 
   const handleOpenWorkoutDetails = (workout) => {
     setCurrentWorkout(workout);
@@ -22,8 +23,20 @@ const Workouts = () => {
     deleteWorkout(workoutId).then(() => {
       toggleOpenModal();
       setCurrentWorkout(null);
+      setData((prevData) => prevData.filter(({ id }) => id !== workoutId));
     });
   };
+
+  const getData = () => {
+    getWorkouts(false).then((workouts) =>
+      setData((prevData) => [...prevData, ...workouts])
+    );
+  };
+
+  useEffect(() => {
+    getWorkouts(true).then((workouts) => setData(workouts));
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <Wrapper>
@@ -33,7 +46,11 @@ const Workouts = () => {
       <WorkoutHistory>
         <Title>History</Title>
         <SrOnly>Click on the workout to see details</SrOnly>
-        <WorkoutList handleOpenWorkoutDetails={handleOpenWorkoutDetails} />
+        <WorkoutList
+          data={data}
+          getData={getData}
+          handleOpenWorkoutDetails={handleOpenWorkoutDetails}
+        />
         {isModalOpen && (
           <WorkoutDetails
             isOpen={isModalOpen}
