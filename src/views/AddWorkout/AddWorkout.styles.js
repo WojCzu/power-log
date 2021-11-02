@@ -9,8 +9,8 @@ export const Wrapper = styled.form`
   flex-direction: column;
   align-items: center;
 
-  div:nth-child(1),
-  div:nth-child(2) {
+  & > div:nth-child(1),
+  & > div:nth-child(2) {
     align-self: flex-start;
   }
 `;
