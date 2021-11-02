@@ -1,20 +1,23 @@
 import { Button } from 'components/atoms/Button/Button';
 import Label from 'components/atoms/Label/Label';
-import { SrOnly } from 'components/atoms/SrOnly/SrOnly';
 import FormField from 'components/molecules/FormField/FormField';
+import Modal from 'components/molecules/Modal/Modal';
 import { useWorkout } from 'hooks/useWorkout';
 import React, { useState } from 'react';
-import Modal from './Modal';
-import { ButtonsWrapper, Content } from './Modal.styles';
+import { Wrapper, ButtonsWrapper } from './AddExerciseForm.styles';
 
-const ModalAddExercise = ({ closeModal, handleAddExercise, ...props }) => {
+const AddExerciseForm = ({ closeModal, handleAddExercise, ...props }) => {
   const [exerciseName, setExerciseName] = useState('');
   const [repetitionsType, setRepetitionsType] = useState('reps');
   const { addExercise } = useWorkout();
 
   return (
-    <Modal closeModal={closeModal} {...props}>
-      <Content
+    <Modal
+      closeModal={closeModal}
+      titleButtons={[{ icon: 'cross', text: 'close modal', fn: closeModal }]}
+      {...props}
+    >
+      <Wrapper
         as="form"
         onSubmit={(e) => {
           e.preventDefault();
@@ -23,9 +26,6 @@ const ModalAddExercise = ({ closeModal, handleAddExercise, ...props }) => {
           e.stopPropagation();
         }}
       >
-        <SrOnly id="modal__description">
-          Fill form to add new exercise to workout
-        </SrOnly>
         <div>
           <FormField
             label="name:"
@@ -67,9 +67,9 @@ const ModalAddExercise = ({ closeModal, handleAddExercise, ...props }) => {
             add
           </Button>
         </ButtonsWrapper>
-      </Content>
+      </Wrapper>
     </Modal>
   );
 };
 
-export default ModalAddExercise;
+export default AddExerciseForm;

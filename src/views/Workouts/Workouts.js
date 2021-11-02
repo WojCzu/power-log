@@ -5,9 +5,8 @@ import WorkoutList from 'components/organisms/WorkoutList/WorkoutList';
 import { Wrapper, WorkoutHistory, Title } from './Workouts.styles';
 import { SrOnly } from 'components/atoms/SrOnly/SrOnly';
 import { useModal } from 'hooks/useModal';
-import Modal from 'components/organisms/Modal/Modal';
 import { useFirestore } from 'hooks/useFirestore';
-import WorkoutDetails from 'components/molecules/WorkoutDetails/WorkoutDetails';
+import WorkoutDetails from 'components/organisms/WorkoutDetails/WorkoutDetails';
 
 const Workouts = () => {
   const { isModalOpen, toggleOpenModal } = useModal();
@@ -37,16 +36,12 @@ const Workouts = () => {
         <SrOnly>Click on the workout to see details</SrOnly>
         <WorkoutList handleOpenWorkoutDetails={handleOpenWorkoutDetails} />
         {isModalOpen && (
-          <Modal
+          <WorkoutDetails
             isOpen={isModalOpen}
             closeModal={toggleOpenModal}
-            modalTitle={currentWorkout.title}
-          >
-            <WorkoutDetails
-              currentWorkout={currentWorkout}
-              handleDelete={handleDelete}
-            />
-          </Modal>
+            currentWorkout={currentWorkout}
+            handleDelete={handleDelete}
+          />
         )}
       </WorkoutHistory>
     </Wrapper>
