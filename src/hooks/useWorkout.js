@@ -15,10 +15,11 @@ const actionTypes = {
 
 const reducer = (state, action) => {
   let isItemRemoved = false;
+  let newState = state;
   try {
     switch (action.type) {
       case actionTypes.addExercise:
-        return {
+        newState = {
           ...state,
           exercises: [
             ...state.exercises,
@@ -30,12 +31,14 @@ const reducer = (state, action) => {
             },
           ],
         };
+        return newState;
 
       case actionTypes.deleteExercise:
         const exercisesAfterDelete = state.exercises.filter(
           ({ id }) => id !== action.payload.id
         );
-        return { ...state, exercises: [...exercisesAfterDelete] };
+        newState = { ...state, exercises: [...exercisesAfterDelete] };
+        return newState;
 
       case actionTypes.addSet:
         const exercisesWithNewSet = state.exercises.map((exercise) => {
@@ -47,7 +50,8 @@ const reducer = (state, action) => {
           }
           return exercise;
         });
-        return { ...state, exercises: [...exercisesWithNewSet] };
+        newState = { ...state, exercises: [...exercisesWithNewSet] };
+        return newState;
 
       case actionTypes.deleteSet:
         const exercisesAfterDeleteSet = state.exercises.map((exercise) => {
@@ -59,7 +63,8 @@ const reducer = (state, action) => {
           }
           return exercise;
         });
-        return { ...state, exercises: [...exercisesAfterDeleteSet] };
+        newState = { ...state, exercises: [...exercisesAfterDeleteSet] };
+        return newState;
 
       case actionTypes.inputChange:
         if (
@@ -75,12 +80,11 @@ const reducer = (state, action) => {
           );
 
           setToChange[action.payload.field] = action.payload.value;
-
-          return { ...state };
+        } else {
+          state[action.payload.field] = action.payload.value;
         }
-
-        state[action.payload.field] = action.payload.value;
-        return { ...state };
+        newState = { ...state };
+        return newState;
 
       case actionTypes.resetState:
         if (action.payload.isSaveEnabled) {
@@ -102,7 +106,7 @@ const reducer = (state, action) => {
     }
   } finally {
     if (!isItemRemoved && action.payload.isSaveEnabled) {
-      setLocalStorage('workout', state, 4 * 60 * 60 * 1000);
+      setLocalStorage('workout', newState, 4 * 60 * 60 * 1000);
     }
   }
 };
