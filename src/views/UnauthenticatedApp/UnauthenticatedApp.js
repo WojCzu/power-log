@@ -3,19 +3,20 @@ import SignupForm from 'components/organisms/SignupForm/SignupForm';
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import { Wrapper } from './UnauthenticatedApp.styles';
+import routes from 'utils/routes';
 
 const UnuthenticatedApp = () => {
   return (
     <Wrapper>
       <Switch>
-        <Route exact path="/login">
+        <Route exact path={routes.login}>
           <LoginForm />
         </Route>
-        <Route exact path="/signup">
+        <Route exact path={routes.signup}>
           <SignupForm />
         </Route>
         <Route path="/">
-          <Redirect to="/login" />
+          <Redirect to={routes.login} />
         </Route>
       </Switch>
     </Wrapper>

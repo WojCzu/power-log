@@ -7,6 +7,7 @@ import LoginNav from 'components/molecules/LoginNav/LoginNav';
 import { StyledP, Wrapper, Title, Card } from './LoginForm.styles';
 import { useFirestore } from 'hooks/useFirestore';
 import { signInWithEmailAndPassword as loginUser } from 'firebase/auth';
+import routes from 'utils/routes';
 
 const LoginForm = () => {
   const [login, setLogin] = useState('');
@@ -45,7 +46,7 @@ const LoginForm = () => {
         <Button $isPrimary>Log In</Button>
         <StyledP>
           Not a member?
-          <StyledLink as={Link} to="/signup">
+          <StyledLink as={Link} to={routes.signup}>
             Signup now!
           </StyledLink>
         </StyledP>

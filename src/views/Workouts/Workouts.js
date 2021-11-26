@@ -7,6 +7,7 @@ import { SrOnly } from 'components/atoms/SrOnly/SrOnly';
 import { useModal } from 'hooks/useModal';
 import { useFirestore } from 'hooks/useFirestore';
 import WorkoutDetails from 'components/organisms/WorkoutDetails/WorkoutDetails';
+import routes from 'utils/routes';
 
 const Workouts = () => {
   const { isModalOpen, toggleOpenModal } = useModal();
@@ -40,7 +41,7 @@ const Workouts = () => {
 
   return (
     <Wrapper>
-      <Button as={Link} to="/workouts/add" $isPrimary>
+      <Button as={Link} to={routes.addWorkout} $isPrimary>
         add new workout
       </Button>
       <WorkoutHistory>

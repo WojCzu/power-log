@@ -1,5 +1,6 @@
 import { useFirestore } from 'hooks/useFirestore';
 import React from 'react';
+import routes from 'utils/routes';
 import { StyledList, StyledLink } from './NavList.styles';
 
 const NavList = ({ isOpen, closeNav }) => {
@@ -11,10 +12,10 @@ const NavList = ({ isOpen, closeNav }) => {
   return (
     <StyledList isOpen={isOpen}>
       <li>
-        <StyledLink to="/workouts">Workouts</StyledLink>
+        <StyledLink to={routes.workoutList}>Workouts</StyledLink>
       </li>
       <li>
-        <StyledLink to="/calc">Calculators</StyledLink>
+        <StyledLink to="/">Calculators</StyledLink>
       </li>
       <li>
         <StyledLink as="button" onClick={handleLogout}>

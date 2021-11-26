@@ -28,6 +28,14 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIRESTORE_APP_ID,
 };
 
+class CollectionEndpoints {
+  constructor(userId) {
+    this.userId = userId;
+    this.workoutsList = `users/${userId}/workouts`;
+  }
+  workout = (id) => `${this.workoutsList}/${id}`;
+}
+
 const FirestoreContext = createContext({});
 
 export const FirestoreProvider = ({ children }) => {
@@ -38,22 +46,25 @@ export const FirestoreProvider = ({ children }) => {
   const [user, setUser] = useState(getLocalStorage('user'));
   const [lastVisibleDocument, setLastVisibleDocument] = useState(null);
 
+  const collectionEndpoints = new CollectionEndpoints(user.uid);
+
   onAuthStateChanged(auth, (user) => {
     setUser(user);
     setLocalStorage('user', user);
   });
+
   const getWorkouts = async (firstRun) => {
     if (!user?.uid || typeof lastVisibleDocument == 'undefined') return [];
     let workoutQuery;
     if (firstRun) {
       workoutQuery = query(
-        collection(db, `users/${user.uid}/workouts`),
+        collection(db, collectionEndpoints.workoutsList),
         orderBy('date', 'desc'),
         limit(25)
       );
     } else {
       workoutQuery = query(
-        collection(db, `users/${user.uid}/workouts`),
+        collection(db, collectionEndpoints.workoutsList),
         orderBy('date', 'desc'),
         startAfter(lastVisibleDocument),
         limit(25)
@@ -77,7 +88,7 @@ export const FirestoreProvider = ({ children }) => {
   const getWorkoutById = async (workoutId) => {
     if (!user?.uid) return;
     const workoutSnapshot = await getDoc(
-      doc(db, `users/${user.uid}/workouts/${workoutId}`)
+      doc(db, collectionEndpoints.workout(workoutId))
     );
     const workoutData = workoutSnapshot.data();
     return {
@@ -89,17 +100,17 @@ export const FirestoreProvider = ({ children }) => {
 
   const addWorkout = (workout) => {
     if (!user?.uid) return;
-    return addDoc(collection(db, `users/${user.uid}/workouts`), workout);
+    return addDoc(collection(db, collectionEndpoints.workoutsList), workout);
   };
 
   const deleteWorkout = (workoutId) => {
     if (!user?.uid) return;
-    return deleteDoc(doc(db, `users/${user.uid}/workouts/${workoutId}`));
+    return deleteDoc(doc(db, collectionEndpoints.workout(workoutId)));
   };
 
   const updateWorkout = (workout, workoutId) => {
     if (!user?.uid) return;
-    return setDoc(doc(db, `users/${user.uid}/workouts/${workoutId}`), workout);
+    return setDoc(doc(db, collectionEndpoints.workout(workoutId)), workout);
   };
   const addUser = (userId) => {
     return setDoc(doc(db, 'users', userId), {});
