@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Button } from 'components/atoms/Button/Button';
 import Accordion from 'components/organisms/Accordion/Accordion';
 import Exercise from 'components/organisms/Exercise/Exercise';
 import { useModal } from 'hooks/useModal';
 import FormField from 'components/molecules/FormField/FormField';
 import { Wrapper, ExercisesContainer } from './AddWorkout.styles';
-import { useWorkout } from 'hooks/useWorkout';
 import { useFirestore } from 'hooks/useFirestore';
 import dayjs from 'dayjs';
 import AddExerciseForm from 'components/organisms/AddExerciseForm/AddExerciseForm';
 import ConfirmAction from 'components/organisms/ConfirmAction/ConfirmAction';
+import { useSelector, useDispatch } from 'react-redux';
+import { changeInput, resetState } from 'redux/slices/workout';
 
 const AddWorkout = () => {
   const { isModalOpen, toggleOpenModal } = useModal();
@@ -17,8 +18,10 @@ const AddWorkout = () => {
     isModalOpen: isEndWorkoutOpen,
     toggleOpenModal: toggleOpenEndWorkout,
   } = useModal();
-  const { data, handleInputChange, resetState, setInitialState } = useWorkout();
   const { addWorkout } = useFirestore();
+
+  const data = useSelector((state) => state.workout);
+  const dispatch = useDispatch();
 
   //It may not be thee greatest but it works
   const checkRequiredInput = () => {
@@ -42,16 +45,11 @@ const AddWorkout = () => {
         notes: data.notes,
       });
       toggleOpenEndWorkout();
-      resetState();
+      dispatch(resetState());
     } catch (error) {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    setInitialState({ save: true });
-    // eslint-disable-next-line
-  }, []);
 
   if (!data) {
     return <div>Loading...</div>;
@@ -76,7 +74,9 @@ const AddWorkout = () => {
         name="workout-start"
         value={date}
         max={dayjs().format('YYYY-MM-DD')}
-        onChange={(e) => handleInputChange('date', e.target.value)}
+        onChange={(e) =>
+          dispatch(changeInput({ field: 'date', value: e.target.value }))
+        }
         required
       />
 
@@ -86,7 +86,9 @@ const AddWorkout = () => {
         id="workout-title"
         name="workout-title"
         value={title}
-        onChange={(e) => handleInputChange('title', e.target.value)}
+        onChange={(e) =>
+          dispatch(changeInput({ field: 'title', value: e.target.value }))
+        }
         placeholder="workout name"
         isBig
         isColumn
@@ -122,7 +124,9 @@ const AddWorkout = () => {
             name="notes"
             placeholder="notes on training, technique, exercises etc..."
             value={notes}
-            onChange={(e) => handleInputChange('notes', e.target.value)}
+            onChange={(e) =>
+              dispatch(changeInput({ field: 'notes', value: e.target.value }))
+            }
             isLabelHidden
           />
         </Accordion>

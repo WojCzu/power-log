@@ -8,16 +8,12 @@ import { useModal } from 'hooks/useModal';
 import { useFirestore } from 'hooks/useFirestore';
 import WorkoutDetails from 'components/organisms/WorkoutDetails/WorkoutDetails';
 import routes from 'utils/routes';
-import { useSelector } from 'react-redux';
 
 const Workouts = () => {
   const { isModalOpen, toggleOpenModal } = useModal();
   const { getWorkouts, deleteWorkout } = useFirestore();
   const [currentWorkout, setCurrentWorkout] = useState(null);
   const [data, setData] = useState([]);
-
-  const reduxData = useSelector((state) => state.workout);
-  console.log(reduxData);
 
   const handleOpenWorkoutDetails = (workout) => {
     setCurrentWorkout(workout);

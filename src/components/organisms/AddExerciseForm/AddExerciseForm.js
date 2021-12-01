@@ -2,15 +2,15 @@ import { Button } from 'components/atoms/Button/Button';
 import Label from 'components/atoms/Label/Label';
 import FormField from 'components/molecules/FormField/FormField';
 import Modal from 'components/molecules/Modal/Modal';
-import { useWorkout } from 'hooks/useWorkout';
 import React, { useState } from 'react';
 import { Wrapper, ButtonsWrapper } from './AddExerciseForm.styles';
+import { addExercise } from 'redux/slices/workout';
+import { useDispatch } from 'react-redux';
 
 const AddExerciseForm = ({ closeModal, handleAddExercise, ...props }) => {
   const [exerciseName, setExerciseName] = useState('');
-  const [repetitionsType, setRepetitionsType] = useState('reps');
-  const { addExercise } = useWorkout();
-
+  const [volumeType, setVolumeType] = useState('reps');
+  const dispatch = useDispatch();
   return (
     <Modal
       closeModal={closeModal}
@@ -21,7 +21,7 @@ const AddExerciseForm = ({ closeModal, handleAddExercise, ...props }) => {
         as="form"
         onSubmit={(e) => {
           e.preventDefault();
-          addExercise(exerciseName, repetitionsType);
+          dispatch(addExercise({ exerciseName, volumeType }));
           closeModal();
           e.stopPropagation();
         }}
@@ -38,7 +38,7 @@ const AddExerciseForm = ({ closeModal, handleAddExercise, ...props }) => {
             onChange={(e) => setExerciseName(e.target.value)}
             required
           />
-          <div onChange={(e) => setRepetitionsType(e.target.value)}>
+          <div onChange={(e) => setVolumeType(e.target.value)}>
             <Label as="p">repetitions:</Label>
 
             <FormField

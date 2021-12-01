@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import dayjs from 'dayjs';
+import { v4 as uuid } from 'uuid';
 
 const initialState = {
   date: dayjs().format('YYYY-MM-DD'),
@@ -13,25 +14,56 @@ const workoutSlice = createSlice({
   initialState,
   reducers: {
     addExercise: (state, action) => {
-      return state;
+      state.exercises.push({
+        id: uuid(),
+        name: action.payload.exerciseName,
+        volumeType: action.payload.volumeType,
+        sets: [{ id: uuid(), weight: '', volume: '' }],
+      });
     },
     deleteExercise: (state, action) => {
-      return state;
+      return {
+        ...state,
+        exercises: state.exercises.filter(({ id }) => id !== action.payload.id),
+      };
     },
     addSet: (state, action) => {
-      return state;
+      state.exercises
+        .find(({ id }) => id === action.payload.id)
+        .sets.push({ id: uuid(), weight: '', volume: '' });
     },
     deleteSet: (state, action) => {
-      return state;
+      const exerciseIndex = state.exercises.findIndex(
+        ({ id }) => id === action.payload.exerciseId
+      );
+      const setIndex = state.exercises[exerciseIndex].sets.findIndex(
+        ({ id }) => id === action.payload.id
+      );
+
+      state.exercises[exerciseIndex].sets.splice(setIndex, 1);
     },
     changeInput: (state, action) => {
-      return state;
+      if (
+        action.payload.field === 'weight' ||
+        action.payload.field === 'volume'
+      ) {
+        const exerciseIndex = state.exercises.findIndex(
+          ({ id }) => id === action.payload.exerciseId
+        );
+        const setIndex = state.exercises[exerciseIndex].sets.findIndex(
+          ({ id }) => id === action.payload.id
+        );
+        state.exercises[exerciseIndex].sets[setIndex][action.payload.field] =
+          action.payload.value;
+      } else {
+        state[action.payload.field] = action.payload.value;
+      }
     },
-    resetState: (state, action) => {
-      return state;
+    resetState: () => {
+      return initialState;
     },
-    setState: (state, action) => {
-      return state;
+    setState: (_, action) => {
+      return { ...action.payload.workout };
     },
   },
 });

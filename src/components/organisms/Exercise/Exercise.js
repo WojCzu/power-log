@@ -1,17 +1,22 @@
 import React from 'react';
 import ExerciseSet from 'components/molecules/ExerciseSet/ExerciseSet';
 import { StyledButton } from './Exercise.styles';
-import { useWorkout } from 'hooks/useWorkout';
 import Accordion from 'components/organisms/Accordion/Accordion';
+import { useDispatch } from 'react-redux';
+import {
+  deleteExercise,
+  addSet,
+  deleteSet,
+  changeInput,
+} from 'redux/slices/workout';
 
 const Exercise = ({ volumeType, sets, id: exerciseId, title, isDisabled }) => {
-  const { addSet, deleteSet, deleteExercise, handleInputChange } = useWorkout();
-
+  const dispatch = useDispatch();
   return (
     <Accordion
       title={title}
       hasDeleteButton={!isDisabled}
-      handleDelete={() => deleteExercise(exerciseId)}
+      handleDelete={() => dispatch(deleteExercise({ id: exerciseId }))}
       data-id={exerciseId}
     >
       {sets.map(({ id, weight, volume }, index) => {
@@ -21,15 +26,29 @@ const Exercise = ({ volumeType, sets, id: exerciseId, title, isDisabled }) => {
             setNumber={index + 1}
             weight={weight}
             onWeightChange={(e) =>
-              handleInputChange('weight', e.target.value, exerciseId, id)
+              dispatch(
+                changeInput({
+                  field: 'weight',
+                  value: e.target.value,
+                  exerciseId,
+                  id,
+                })
+              )
             }
             volume={volume}
             onVolumeChange={(e) =>
-              handleInputChange('volume', e.target.value, exerciseId, id)
+              dispatch(
+                changeInput({
+                  field: 'volume',
+                  value: e.target.value,
+                  exerciseId,
+                  id,
+                })
+              )
             }
             volumeType={volumeType}
             isDisabled={isDisabled}
-            handleDeleteSet={() => deleteSet(exerciseId, id)}
+            handleDeleteSet={() => dispatch(deleteSet({ exerciseId, id }))}
           />
         );
       })}
@@ -37,7 +56,7 @@ const Exercise = ({ volumeType, sets, id: exerciseId, title, isDisabled }) => {
         <StyledButton
           $isFullWidth
           type="button"
-          onClick={() => addSet(exerciseId)}
+          onClick={() => dispatch(addSet({ id: exerciseId }))}
         >
           add set
         </StyledButton>
