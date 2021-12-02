@@ -5,11 +5,12 @@ import FormField from '../../molecules/FormField/FormField';
 import dayjs from 'dayjs';
 import { ButtonsWrapper } from './WorkoutDetails.styles';
 import { Button } from 'components/atoms/Button/Button';
-import { useWorkout } from 'hooks/useWorkout';
 import { useModal } from 'hooks/useModal';
 import { useFirestore } from 'hooks/useFirestore';
 import Modal from 'components/molecules/Modal/Modal';
 import AddExerciseForm from '../AddExerciseForm/AddExerciseForm';
+import { useSelector, useDispatch } from 'react-redux';
+import { changeInput, resetState, setState } from 'redux/slices/workout';
 
 const WorkoutDetails = ({
   isOpen,
@@ -18,14 +19,15 @@ const WorkoutDetails = ({
   handleDelete,
 }) => {
   const { isModalOpen, toggleOpenModal } = useModal();
-  const { data, handleInputChange, setInitialState } = useWorkout();
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.workout);
   const [isEditDisabled, setIsEditDisabled] = useState(true);
   const { updateWorkout } = useFirestore();
 
   const toggleEdit = () => setIsEditDisabled((prevState) => !prevState);
 
   useEffect(() => {
-    setInitialState({ workout: currentWorkout, save: false });
+    dispatch(setState({ workout: currentWorkout }));
     // eslint-disable-next-line
   }, []);
 
@@ -44,7 +46,10 @@ const WorkoutDetails = ({
   return (
     <Modal
       isOpen={isOpen}
-      closeModal={closeModal}
+      closeModal={() => {
+        closeModal();
+        dispatch(resetState());
+      }}
       modalTitle={currentWorkout.title}
       titleButtons={[
         { icon: 'edit', fn: toggleEdit, text: 'edit workout' },
@@ -61,7 +66,9 @@ const WorkoutDetails = ({
           max={dayjs().format('YYYY-MM-DD')}
           isDisabled={isEditDisabled}
           required
-          onChange={(e) => handleInputChange('date', e.target.value)}
+          onChange={(e) =>
+            dispatch(changeInput({ field: 'date', value: e.target.value }))
+          }
         />
         {exercises.map(({ id, name, volumeType, sets }) => (
           <Exercise
@@ -100,7 +107,9 @@ const WorkoutDetails = ({
             placeholder="notes on training, technique, exercises etc..."
             value={notes}
             isDisabled={isEditDisabled}
-            onChange={(e) => handleInputChange('notes', e.target.value)}
+            onChange={(e) =>
+              dispatch(changeInput({ field: 'notes', value: e.target.value }))
+            }
             isLabelHidden
           />
         </Accordion>
