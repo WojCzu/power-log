@@ -11,6 +11,7 @@ import Modal from 'components/molecules/Modal/Modal';
 import AddExerciseForm from '../AddExerciseForm/AddExerciseForm';
 import { useSelector, useDispatch } from 'react-redux';
 import { changeInput, resetState, setState } from 'redux/slices/workout';
+import { updateWorkout } from 'redux/thunks/firebase';
 
 const WorkoutDetails = ({
   isOpen,
@@ -22,7 +23,7 @@ const WorkoutDetails = ({
   const dispatch = useDispatch();
   const data = useSelector((state) => state.workout);
   const [isEditDisabled, setIsEditDisabled] = useState(true);
-  const { updateWorkout } = useFirestore();
+  const { db, user } = useFirestore();
 
   const toggleEdit = () => setIsEditDisabled((prevState) => !prevState);
 
@@ -32,10 +33,18 @@ const WorkoutDetails = ({
   }, []);
 
   const handleUpdateWorkout = (currentWorkout) => {
-    updateWorkout(
-      { ...currentWorkout, date: new Date(currentWorkout.date) },
-      currentWorkout.id
-    ).then(() => setIsEditDisabled(true));
+    const { id, ...workout } = currentWorkout;
+    dispatch(
+      updateWorkout({
+        db,
+        uid: user.uid,
+        payload: {
+          workoutId: id,
+          workout: { ...workout, date: new Date(workout.date) },
+        },
+      })
+    );
+    toggleEdit();
   };
 
   if (!data) {

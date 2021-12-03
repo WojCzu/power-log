@@ -11,6 +11,7 @@ import AddExerciseForm from 'components/organisms/AddExerciseForm/AddExerciseFor
 import ConfirmAction from 'components/organisms/ConfirmAction/ConfirmAction';
 import { useSelector, useDispatch } from 'react-redux';
 import { changeInput, resetState } from 'redux/slices/workout';
+import { addWorkout } from 'redux/thunks/firebase';
 
 const AddWorkout = () => {
   const { isModalOpen, toggleOpenModal } = useModal();
@@ -18,7 +19,7 @@ const AddWorkout = () => {
     isModalOpen: isEndWorkoutOpen,
     toggleOpenModal: toggleOpenEndWorkout,
   } = useModal();
-  const { addWorkout } = useFirestore();
+  const { db, user } = useFirestore();
 
   const data = useSelector((state) => state.workout);
   const dispatch = useDispatch();
@@ -36,14 +37,22 @@ const AddWorkout = () => {
     });
   };
 
-  const handleEndWorkout = async () => {
+  const handleEndWorkout = () => {
     try {
-      await addWorkout({
-        date: new Date(date),
-        title: `${title || 'Unnamed'}`,
-        exercises: data.exercises,
-        notes: data.notes,
-      });
+      dispatch(
+        addWorkout({
+          db,
+          uid: user.uid,
+          payload: {
+            workout: {
+              date: new Date(date),
+              title: `${title || 'Unnamed'}`,
+              exercises: data.exercises,
+              notes: data.notes,
+            },
+          },
+        })
+      );
       toggleOpenEndWorkout();
       dispatch(resetState());
     } catch (error) {

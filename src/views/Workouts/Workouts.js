@@ -8,12 +8,16 @@ import { useModal } from 'hooks/useModal';
 import { useFirestore } from 'hooks/useFirestore';
 import WorkoutDetails from 'components/organisms/WorkoutDetails/WorkoutDetails';
 import routes from 'utils/routes';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteWorkout, getWorkouts } from 'redux/thunks/firebase';
 
 const Workouts = () => {
   const { isModalOpen, toggleOpenModal } = useModal();
-  const { getWorkouts, deleteWorkout } = useFirestore();
+  const { db, user } = useFirestore();
   const [currentWorkout, setCurrentWorkout] = useState(null);
-  const [data, setData] = useState([]);
+
+  const data = useSelector((state) => state.firebase.workouts);
+  const dispatch = useDispatch();
 
   const handleOpenWorkoutDetails = (workout) => {
     setCurrentWorkout(workout);
@@ -21,21 +25,17 @@ const Workouts = () => {
   };
 
   const handleDelete = (workoutId) => {
-    deleteWorkout(workoutId).then(() => {
-      toggleOpenModal();
-      setCurrentWorkout(null);
-      setData((prevData) => prevData.filter(({ id }) => id !== workoutId));
-    });
+    dispatch(deleteWorkout({ db, uid: user.uid, payload: { workoutId } }));
+    toggleOpenModal();
+    setCurrentWorkout(null);
   };
 
   const getData = () => {
-    getWorkouts(false).then((workouts) =>
-      setData((prevData) => [...prevData, ...workouts])
-    );
+    return data;
   };
 
   useEffect(() => {
-    getWorkouts(true).then((workouts) => setData(workouts));
+    dispatch(getWorkouts({ db, uid: user.uid }));
     // eslint-disable-next-line
   }, []);
 
