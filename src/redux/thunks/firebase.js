@@ -50,18 +50,32 @@ export const getWorkoutById = createAsyncThunk(
 export const addWorkout = createAsyncThunk(
   'firebase/addWorkout',
   async ({ db, uid, payload: { workout } }) => {
-    addDoc(collection(db, `users/${uid}/workouts`), workout);
+    const docRef = await addDoc(collection(db, `users/${uid}/workouts`), {
+      ...workout,
+      date: new Date(workout.date),
+    });
+    return {
+      workout: {
+        id: docRef.id,
+        ...workout,
+      },
+    };
   }
 );
 export const deleteWorkout = createAsyncThunk(
   'firebase/deleteWorkout',
   async ({ db, uid, payload: { workoutId } }) => {
-    deleteDoc(doc(db, `users/${uid}/workouts/${workoutId}`));
+    await deleteDoc(doc(db, `users/${uid}/workouts/${workoutId}`));
+    return { workoutId };
   }
 );
 export const updateWorkout = createAsyncThunk(
   'firebase/updateWorkout',
-  async ({ db, uid, payload: { workout, workoutId } }) => {
-    setDoc(doc(db, `users/${uid}/workouts/${workoutId}`), workout);
+  async ({ db, uid, payload: { workout } }) => {
+    await setDoc(doc(db, `users/${uid}/workouts/${workout.id}`), {
+      ...workout,
+      date: new Date(workout.date),
+    });
+    return { workout };
   }
 );

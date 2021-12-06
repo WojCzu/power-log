@@ -45,10 +45,10 @@ const AddWorkout = () => {
           uid: user.uid,
           payload: {
             workout: {
-              date: new Date(date),
+              date,
               title: `${title || 'Unnamed'}`,
-              exercises: data.exercises,
-              notes: data.notes,
+              exercises,
+              notes,
             },
           },
         })

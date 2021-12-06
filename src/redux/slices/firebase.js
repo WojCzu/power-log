@@ -42,7 +42,8 @@ const firebaseSlice = createSlice({
     [addWorkout.pending]: (state) => {
       state.loading = true;
     },
-    [addWorkout.fulfilled]: (state) => {
+    [addWorkout.fulfilled]: (state, { payload }) => {
+      state.workouts.push(payload.workout);
       state.loading = false;
     },
     [addWorkout.rejected]: (state) => {
@@ -52,7 +53,10 @@ const firebaseSlice = createSlice({
     [deleteWorkout.pending]: (state) => {
       state.loading = true;
     },
-    [deleteWorkout.fulfilled]: (state) => {
+    [deleteWorkout.fulfilled]: (state, { payload }) => {
+      state.workouts = state.workouts.filter(
+        ({ id }) => id !== payload.workoutId
+      );
       state.loading = false;
     },
     [deleteWorkout.rejected]: (state) => {
@@ -62,7 +66,11 @@ const firebaseSlice = createSlice({
     [updateWorkout.pending]: (state) => {
       state.loading = true;
     },
-    [updateWorkout.fulfilled]: (state) => {
+    [updateWorkout.fulfilled]: (state, { payload }) => {
+      const index = state.workouts.findIndex(
+        ({ id }) => id === payload.workout.id
+      );
+      state.workouts[index] = payload.workout;
       state.loading = false;
     },
     [updateWorkout.rejected]: (state) => {

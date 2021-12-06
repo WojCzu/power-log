@@ -32,16 +32,12 @@ const WorkoutDetails = ({
     // eslint-disable-next-line
   }, []);
 
-  const handleUpdateWorkout = (currentWorkout) => {
-    const { id, ...workout } = currentWorkout;
+  const handleUpdateWorkout = (workout) => {
     dispatch(
       updateWorkout({
         db,
         uid: user.uid,
-        payload: {
-          workoutId: id,
-          workout: { ...workout, date: new Date(workout.date) },
-        },
+        payload: { workout },
       })
     );
     toggleEdit();
