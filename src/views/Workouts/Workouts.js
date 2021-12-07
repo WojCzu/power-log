@@ -9,7 +9,11 @@ import { useFirestore } from 'hooks/useFirestore';
 import WorkoutDetails from 'components/organisms/WorkoutDetails/WorkoutDetails';
 import routes from 'utils/routes';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteWorkout, getWorkouts } from 'redux/thunks/firebase';
+import {
+  deleteWorkout,
+  getWorkouts,
+  getMoreWorkouts,
+} from 'redux/thunks/firebase';
 
 const Workouts = () => {
   const { isModalOpen, toggleOpenModal } = useModal();
@@ -31,7 +35,7 @@ const Workouts = () => {
   };
 
   const getData = () => {
-    return data;
+    dispatch(getMoreWorkouts({ db, uid: user.uid }));
   };
 
   useEffect(() => {
@@ -49,7 +53,7 @@ const Workouts = () => {
         <SrOnly>Click on the workout to see details</SrOnly>
         <WorkoutList
           data={data}
-          getData={getData}
+          getMoreWorkouts={getData}
           handleOpenWorkoutDetails={handleOpenWorkoutDetails}
         />
         {isModalOpen && (

@@ -11,6 +11,7 @@ import {
   addDoc,
   deleteDoc,
   setDoc,
+  startAfter,
 } from 'firebase/firestore/lite';
 
 export const getWorkouts = createAsyncThunk(
@@ -22,6 +23,7 @@ export const getWorkouts = createAsyncThunk(
       limit(25)
     );
     const snapshot = await getDocs(wq);
+    const lastVisible = snapshot.docs[snapshot.docs.length - 1];
     const result = snapshot.docs.map((doc) => {
       const data = doc.data();
       return {
@@ -30,7 +32,29 @@ export const getWorkouts = createAsyncThunk(
         date: dayjs(data.date.toDate()).format('YYYY-MM-DD'),
       };
     });
-    return result;
+    return { result, lastVisible };
+  }
+);
+export const getMoreWorkouts = createAsyncThunk(
+  'firebase/getMoreWorkouts',
+  async ({ db, uid }, { getState }) => {
+    const wq = query(
+      collection(db, `users/${uid}/workouts`),
+      orderBy('date', 'desc'),
+      startAfter(getState().firebase.lastVisible),
+      limit(25)
+    );
+    const snapshot = await getDocs(wq);
+    const lastVisible = snapshot.docs[snapshot.docs.length - 1];
+    const result = snapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        ...data,
+        date: dayjs(data.date.toDate()).format('YYYY-MM-DD'),
+      };
+    });
+    return { result, lastVisible };
   }
 );
 

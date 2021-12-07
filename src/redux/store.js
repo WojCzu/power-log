@@ -7,6 +7,13 @@ const store = configureStore({
     workout: workoutReducer,
     firebase: firebaseReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActionPaths: ['meta.arg', 'payload.lastVisible'],
+        ignoredPaths: ['firebase.lastVisible'],
+      },
+    }),
 });
 
 export default store;

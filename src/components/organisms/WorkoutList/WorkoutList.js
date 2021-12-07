@@ -6,7 +6,7 @@ import {
   WorkoutDate,
 } from './WorkoutList.styles';
 
-const WorkoutList = ({ data, getData, handleOpenWorkoutDetails }) => {
+const WorkoutList = ({ data, getMoreWorkouts, handleOpenWorkoutDetails }) => {
   const observingItemRef = useRef(null);
   const observer = useRef(null);
 
@@ -14,7 +14,7 @@ const WorkoutList = ({ data, getData, handleOpenWorkoutDetails }) => {
     observer.current = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          getData();
+          getMoreWorkouts();
         }
       },
       {
@@ -30,7 +30,7 @@ const WorkoutList = ({ data, getData, handleOpenWorkoutDetails }) => {
     return () => {
       observer.current.disconnect();
     };
-  }, [getData]);
+  }, [getMoreWorkouts]);
 
   return (
     <Wrapper>

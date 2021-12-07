@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   getWorkouts,
   getWorkoutById,
+  getMoreWorkouts,
   addWorkout,
   deleteWorkout,
   updateWorkout,
@@ -12,6 +13,7 @@ const firebaseSlice = createSlice({
   initialState: {
     workouts: [],
     workout: {},
+    lastVisible: null,
     loading: false,
   },
   reducers: {},
@@ -21,7 +23,8 @@ const firebaseSlice = createSlice({
       state.loading = true;
     },
     [getWorkouts.fulfilled]: (state, { payload }) => {
-      state.workouts = payload;
+      state.workouts = payload.result;
+      state.lastVisible = payload.lastVisible;
       state.loading = false;
     },
     [getWorkouts.rejected]: (state) => {
@@ -36,6 +39,18 @@ const firebaseSlice = createSlice({
       state.loading = false;
     },
     [getWorkoutById.rejected]: (state) => {
+      state.loading = false;
+    },
+    // getMoreWorkouts
+    [getMoreWorkouts.pending]: (state) => {
+      state.loading = true;
+    },
+    [getMoreWorkouts.fulfilled]: (state, { payload }) => {
+      state.workouts.push(...payload.result);
+      state.lastVisible = payload.lastVisible;
+      state.loading = false;
+    },
+    [getMoreWorkouts.rejected]: (state) => {
       state.loading = false;
     },
     //addWorkout
