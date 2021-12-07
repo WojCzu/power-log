@@ -7,7 +7,6 @@ import {
   limit,
   getDocs,
   doc,
-  getDoc,
   addDoc,
   deleteDoc,
   setDoc,
@@ -35,6 +34,7 @@ export const getWorkouts = createAsyncThunk(
     return { result, lastVisible };
   }
 );
+
 export const getMoreWorkouts = createAsyncThunk(
   'firebase/getMoreWorkouts',
   async ({ db, uid }, { getState }) => {
@@ -58,19 +58,6 @@ export const getMoreWorkouts = createAsyncThunk(
   }
 );
 
-export const getWorkoutById = createAsyncThunk(
-  'firebase/getWorkoutById',
-  async ({ db, uid, payload: { workoutId } }) => {
-    const snapshot = await getDoc(db, `users/${uid}/workouts/${workoutId}`);
-    const data = snapshot.data();
-    return {
-      id: workoutId,
-      ...data,
-      date: dayjs(data.date.toDate()).format('YYYY-MM-DD'),
-    };
-  }
-);
-
 export const addWorkout = createAsyncThunk(
   'firebase/addWorkout',
   async ({ db, uid, payload: { workout } }) => {
@@ -86,6 +73,7 @@ export const addWorkout = createAsyncThunk(
     };
   }
 );
+
 export const deleteWorkout = createAsyncThunk(
   'firebase/deleteWorkout',
   async ({ db, uid, payload: { workoutId } }) => {
@@ -93,6 +81,7 @@ export const deleteWorkout = createAsyncThunk(
     return { workoutId };
   }
 );
+
 export const updateWorkout = createAsyncThunk(
   'firebase/updateWorkout',
   async ({ db, uid, payload: { workout } }) => {

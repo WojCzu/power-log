@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from 'components/atoms/Button/Button';
 import { Link } from 'react-router-dom';
 import WorkoutList from 'components/organisms/WorkoutList/WorkoutList';
@@ -8,19 +8,14 @@ import { useModal } from 'hooks/useModal';
 import { useFirestore } from 'hooks/useFirestore';
 import WorkoutDetails from 'components/organisms/WorkoutDetails/WorkoutDetails';
 import routes from 'utils/routes';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  deleteWorkout,
-  getWorkouts,
-  getMoreWorkouts,
-} from 'redux/thunks/firebase';
+import { useDispatch } from 'react-redux';
+import { deleteWorkout } from 'redux/thunks/firebase';
 
 const Workouts = () => {
   const { isModalOpen, toggleOpenModal } = useModal();
   const { db, user } = useFirestore();
   const [currentWorkout, setCurrentWorkout] = useState(null);
 
-  const data = useSelector((state) => state.firebase.workouts);
   const dispatch = useDispatch();
 
   const handleOpenWorkoutDetails = (workout) => {
@@ -34,15 +29,6 @@ const Workouts = () => {
     setCurrentWorkout(null);
   };
 
-  const getData = () => {
-    dispatch(getMoreWorkouts({ db, uid: user.uid }));
-  };
-
-  useEffect(() => {
-    dispatch(getWorkouts({ db, uid: user.uid }));
-    // eslint-disable-next-line
-  }, []);
-
   return (
     <Wrapper>
       <Button as={Link} to={routes.addWorkout} $isPrimary>
@@ -51,11 +37,7 @@ const Workouts = () => {
       <WorkoutHistory>
         <Title>History</Title>
         <SrOnly>Click on the workout to see details</SrOnly>
-        <WorkoutList
-          data={data}
-          getMoreWorkouts={getData}
-          handleOpenWorkoutDetails={handleOpenWorkoutDetails}
-        />
+        <WorkoutList handleOpenWorkoutDetails={handleOpenWorkoutDetails} />
         {isModalOpen && (
           <WorkoutDetails
             isOpen={isModalOpen}
