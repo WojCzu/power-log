@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from 'components/atoms/Button/Button';
 import { Link } from 'react-router-dom';
 import WorkoutList from 'components/organisms/WorkoutList/WorkoutList';
@@ -8,12 +8,15 @@ import { useModal } from 'hooks/useModal';
 import { useFirestore } from 'hooks/useFirestore';
 import WorkoutDetails from 'components/organisms/WorkoutDetails/WorkoutDetails';
 import routes from 'utils/routes';
+import { useDispatch } from 'react-redux';
+import { deleteWorkout } from 'redux/thunks/firebase';
 
 const Workouts = () => {
   const { isModalOpen, toggleOpenModal } = useModal();
-  const { getWorkouts, deleteWorkout } = useFirestore();
+  const { db, user } = useFirestore();
   const [currentWorkout, setCurrentWorkout] = useState(null);
-  const [data, setData] = useState([]);
+
+  const dispatch = useDispatch();
 
   const handleOpenWorkoutDetails = (workout) => {
     setCurrentWorkout(workout);
@@ -21,23 +24,10 @@ const Workouts = () => {
   };
 
   const handleDelete = (workoutId) => {
-    deleteWorkout(workoutId).then(() => {
-      toggleOpenModal();
-      setCurrentWorkout(null);
-      setData((prevData) => prevData.filter(({ id }) => id !== workoutId));
-    });
+    dispatch(deleteWorkout({ db, uid: user.uid, payload: { workoutId } }));
+    toggleOpenModal();
+    setCurrentWorkout(null);
   };
-
-  const getData = () => {
-    getWorkouts(false).then((workouts) =>
-      setData((prevData) => [...prevData, ...workouts])
-    );
-  };
-
-  useEffect(() => {
-    getWorkouts(true).then((workouts) => setData(workouts));
-    // eslint-disable-next-line
-  }, []);
 
   return (
     <Wrapper>
@@ -47,11 +37,7 @@ const Workouts = () => {
       <WorkoutHistory>
         <Title>History</Title>
         <SrOnly>Click on the workout to see details</SrOnly>
-        <WorkoutList
-          data={data}
-          getData={getData}
-          handleOpenWorkoutDetails={handleOpenWorkoutDetails}
-        />
+        <WorkoutList handleOpenWorkoutDetails={handleOpenWorkoutDetails} />
         {isModalOpen && (
           <WorkoutDetails
             isOpen={isModalOpen}

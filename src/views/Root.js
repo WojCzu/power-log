@@ -4,10 +4,10 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from 'assets/styles/theme';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { useFirestore } from 'hooks/useFirestore';
-import { WorkoutProvider } from 'hooks/useWorkout';
 import UnauthenticatedApp from './UnauthenticatedApp/UnauthenticatedApp';
 import AuthenticatedApp from './AuthenticatedApp/AuthenticatedApp';
-
+import { Provider } from 'react-redux';
+import store from 'redux/store';
 const Root = () => {
   const { user } = useFirestore();
 
@@ -16,9 +16,9 @@ const Root = () => {
       <ThemeProvider theme={theme}>
         <GlobalStyles />
         {user ? (
-          <WorkoutProvider>
+          <Provider store={store}>
             <AuthenticatedApp />
-          </WorkoutProvider>
+          </Provider>
         ) : (
           <UnauthenticatedApp />
         )}

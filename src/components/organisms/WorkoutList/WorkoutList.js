@@ -5,16 +5,27 @@ import {
   WorkoutName,
   WorkoutDate,
 } from './WorkoutList.styles';
+import { getWorkouts, getMoreWorkouts } from 'redux/thunks/firebase';
+import { useSelector, useDispatch } from 'react-redux';
+import { useFirestore } from 'hooks/useFirestore';
 
-const WorkoutList = ({ data, getData, handleOpenWorkoutDetails }) => {
+const WorkoutList = ({ handleOpenWorkoutDetails }) => {
   const observingItemRef = useRef(null);
   const observer = useRef(null);
+  const dispatch = useDispatch();
+  const { workouts: data, loading } = useSelector((state) => state.firebase);
+  const { db, user } = useFirestore();
+
+  useEffect(() => {
+    dispatch(getWorkouts({ db, uid: user.uid }));
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     observer.current = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          getData();
+          dispatch(getMoreWorkouts({ db, uid: user.uid }));
         }
       },
       {
@@ -30,7 +41,7 @@ const WorkoutList = ({ data, getData, handleOpenWorkoutDetails }) => {
     return () => {
       observer.current.disconnect();
     };
-  }, [getData]);
+  }, [db, dispatch, user.uid, data]);
 
   return (
     <Wrapper>
@@ -51,6 +62,13 @@ const WorkoutList = ({ data, getData, handleOpenWorkoutDetails }) => {
           </WorkoutListItem>
         );
       })}
+
+      {loading.workouts && (
+        <WorkoutListItem>
+          <WorkoutName>loading...</WorkoutName>
+          <WorkoutDate>XXXX-XX-XX</WorkoutDate>
+        </WorkoutListItem>
+      )}
     </Wrapper>
   );
 };
