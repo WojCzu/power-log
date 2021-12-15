@@ -22,6 +22,7 @@ const AddWorkout = () => {
   const { db, user } = useFirestore();
 
   const data = useSelector((state) => state.workout);
+  const { loading } = useSelector((state) => state.firebase);
   const dispatch = useDispatch();
 
   //It may not be thee greatest but it works
@@ -141,7 +142,7 @@ const AddWorkout = () => {
         </Accordion>
       </ExercisesContainer>
 
-      <Button type="submit" onClick={checkRequiredInput}>
+      <Button type="submit" onClick={checkRequiredInput} disabled={loading.add}>
         end workout
       </Button>
       {isEndWorkoutOpen && (

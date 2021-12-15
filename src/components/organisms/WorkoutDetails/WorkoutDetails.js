@@ -22,6 +22,7 @@ const WorkoutDetails = ({
   const { isModalOpen, toggleOpenModal } = useModal();
   const dispatch = useDispatch();
   const data = useSelector((state) => state.workout);
+  const { loading } = useSelector((state) => state.firebase);
   const [isEditDisabled, setIsEditDisabled] = useState(true);
   const { db, user } = useFirestore();
 
@@ -123,7 +124,11 @@ const WorkoutDetails = ({
             {isEditDisabled ? 'Edit' : 'Cancel edit'}
           </Button>
           {isEditDisabled ? (
-            <Button $isPrimary onClick={() => handleDelete(id)}>
+            <Button
+              $isPrimary
+              onClick={() => handleDelete(id)}
+              disabled={loading.delete}
+            >
               Delete
             </Button>
           ) : (
@@ -132,6 +137,7 @@ const WorkoutDetails = ({
               onClick={() =>
                 handleUpdateWorkout({ id, date, exercises, notes, title })
               }
+              disabled={loading.update}
             >
               Save edit
             </Button>

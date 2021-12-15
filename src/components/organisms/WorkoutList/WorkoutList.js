@@ -13,7 +13,7 @@ const WorkoutList = ({ handleOpenWorkoutDetails }) => {
   const observingItemRef = useRef(null);
   const observer = useRef(null);
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.firebase.workouts);
+  const { workouts: data, loading } = useSelector((state) => state.firebase);
   const { db, user } = useFirestore();
 
   useEffect(() => {
@@ -62,6 +62,13 @@ const WorkoutList = ({ handleOpenWorkoutDetails }) => {
           </WorkoutListItem>
         );
       })}
+
+      {loading.workouts && (
+        <WorkoutListItem>
+          <WorkoutName>loading...</WorkoutName>
+          <WorkoutDate>XXXX-XX-XX</WorkoutDate>
+        </WorkoutListItem>
+      )}
     </Wrapper>
   );
 };
