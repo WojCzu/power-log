@@ -69,6 +69,14 @@ const WorkoutList = ({ handleOpenWorkoutDetails }) => {
           <WorkoutDate>XXXX-XX-XX</WorkoutDate>
         </WorkoutListItem>
       )}
+
+      {!loading.workouts && !data.length && (
+        <WorkoutListItem>
+          <WorkoutName>
+            There is nothing to show yet, add your first workout
+          </WorkoutName>
+        </WorkoutListItem>
+      )}
     </Wrapper>
   );
 };

@@ -3,7 +3,7 @@ import { lightOutline } from 'assets/styles/outline';
 
 export const Wrapper = styled.ul`
   margin: 0;
-  padding: 0 10px;
+  padding: 0 10px 10px;
 `;
 
 export const WorkoutListItem = styled.li`
