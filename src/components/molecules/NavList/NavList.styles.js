@@ -7,6 +7,7 @@ export const StyledList = styled.ul`
   padding: 54px 0 24px;
 
   position: relative;
+  z-index: 1;
 
   list-style: none;
   background-color: ${({ theme }) => theme.color.darkGray};

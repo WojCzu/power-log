@@ -12,11 +12,11 @@ const SignupForm = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { auth, addUser } = useFirestore();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
 
@@ -29,15 +29,14 @@ const SignupForm = () => {
       return;
     }
 
-    setIsButtonDisabled(true);
-    createUser(auth, login, password)
-      .then((credential) => {
-        addUser(credential.user.uid);
-      })
-      .catch((e) => {
-        setErrorMessage(e.message);
-        setIsButtonDisabled(false);
-      });
+    setIsLoading(true);
+    try {
+      const credential = await createUser(auth, login, password);
+      addUser(credential.user.uid);
+    } catch (e) {
+      setErrorMessage(e.message);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -76,7 +75,7 @@ const SignupForm = () => {
           required
         />
         {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-        <Button $isPrimary disabled={isButtonDisabled}>
+        <Button $isPrimary disabled={isLoading}>
           Sign Up!
         </Button>
       </Wrapper>
