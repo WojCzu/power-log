@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Navigation from 'components/organisms/Navigation/Navigation';
 import Workouts from 'views/Workouts/Workouts';
 import AddWorkout from 'views/AddWorkout/AddWorkout';
+import Calculators from 'views/Calculators/Calculators';
 import { Wrapper, App } from './AuthenticatedApp.js.styles';
 import routes from 'utils/routes';
 
@@ -16,6 +17,9 @@ const AuthenticatedApp = () => (
         </Route>
         <Route exact path={routes.addWorkout}>
           <AddWorkout />
+        </Route>
+        <Route exact path={routes.calculators}>
+          <Calculators />
         </Route>
         <Route path="/">
           <Redirect to={routes.workoutList} />
