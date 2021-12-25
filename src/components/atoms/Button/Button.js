@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { lightOutline } from 'assets/styles/outline';
 
 export const Button = styled.button`
-  padding: 0.8em 3em;
+  padding: 0.8em 2em;
   width: ${({ $isFullWidth }) => ($isFullWidth ? '100%' : 'auto')};
 
   font-size: ${({ theme }) => theme.fontSize.m};
