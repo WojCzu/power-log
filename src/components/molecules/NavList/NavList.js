@@ -7,17 +7,16 @@ const NavList = ({ isOpen, closeNav }) => {
   const { auth } = useFirestore();
   const handleLogout = () => {
     auth.signOut();
-    closeNav();
   };
   return (
     <StyledList isOpen={isOpen}>
-      <li>
+      <li onClick={() => closeNav()}>
         <StyledLink to={routes.workoutList}>Workouts</StyledLink>
       </li>
-      <li>
+      <li onClick={() => closeNav()}>
         <StyledLink to={routes.calculators}>Calculators</StyledLink>
       </li>
-      <li>
+      <li onClick={() => closeNav()}>
         <StyledLink as="button" onClick={handleLogout}>
           Logout
         </StyledLink>
