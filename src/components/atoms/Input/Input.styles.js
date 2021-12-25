@@ -38,7 +38,7 @@ export const TextInput = styled.input`
   margin: 0;
   border: none;
   outline: none;
-  width: ${({ customWidth }) => customWidth || 'auto'};
+  width: ${({ customWidth }) => customWidth || '100%'};
 
   text-align: ${({ isTextCenter }) => isTextCenter && 'center'};
 

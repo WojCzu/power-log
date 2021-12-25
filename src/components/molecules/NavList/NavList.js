@@ -15,7 +15,7 @@ const NavList = ({ isOpen, closeNav }) => {
         <StyledLink to={routes.workoutList}>Workouts</StyledLink>
       </li>
       <li>
-        <StyledLink to="/">Calculators</StyledLink>
+        <StyledLink to={routes.calculators}>Calculators</StyledLink>
       </li>
       <li>
         <StyledLink as="button" onClick={handleLogout}>
